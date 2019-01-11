@@ -1,0 +1,11 @@
+github.com
+golang.org
+pkg
+bin
+test_data
+*.xml
+*.iml
+*.idea
+*.bak
+*.a
+.idea
