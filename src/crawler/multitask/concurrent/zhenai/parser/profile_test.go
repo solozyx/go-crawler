@@ -3,7 +3,7 @@ package parser
 import (
 	"testing"
 	"io/ioutil"
-	"crawler/multitask/model"
+	"crawler/multitask/concurrent/model"
 )
 
 func TestParseProfile(t *testing.T) {

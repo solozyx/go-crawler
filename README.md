@@ -39,3 +39,13 @@ func Fetch(url string) ([]byte, error) {
 	//...
 }
 ```
+
+### 队列调度器
+![image](https://github.com/solozyx/go-crawler/blob/master/screenshots/queued.png)
+* 并发分发调度器对项目的控制力度比较小，启动了200个goroutine，100个Worker goroutine，每个Request对应创建1条goroutine分发
+分发出去的Request就收不回来了，也不知道分发出去的Request在外面怎么样了，所有的Worker都在抢同1个 in chan Request 过来的 Request 也没有办法去控制想给到哪个Worker，做一些负载均衡之类的事情无法做
+1. 把Request放到Request队列，分发队列头的Request
+2. Request分发给Worker，加大对Worker的控制，可以自己选择Worker做任务，引入Worker队列
+3. 有了Request 和 Worker ，把自己选择的Request发给自己选择的Worker，控制力度增大
+4. 100个Worker子goroutine爬取网页文本数据正则计算,1个子goroutine调度队列,大幅减少子goroutine数量
+5. 去掉流控限制最大流量峰值也有 4M-5M 速度非常快,也被目标网站禁掉了, 引入队列的实现和并发分发实现性能差不多,控制力度提高
