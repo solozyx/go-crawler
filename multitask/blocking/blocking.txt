@@ -1,0 +1,28 @@
+C:\go-crawler\multitask\blocking>blocking.exe
+2019/01/12 12:33:08 Fetching http://www.zhenai.com/zhenghun
+Matches found citys count = 470
+2019/01/12 12:33:08 Got item = City 阿坝
+2019/01/12 12:33:08 Fetching http://www.zhenai.com/zhenghun/aba
+2019/01/12 12:33:09 Got item = User 不想
+2019/01/12 12:33:09 Got item = User 小草屋女人
+2019/01/12 12:33:09 Got item = User 棍郎
+2019/01/12 12:33:09 Got item = User X先生
+2019/01/12 12:33:09 Got item = User 微微一笑
+2019/01/12 12:33:09 Got item = User 甜蜜
+2019/01/12 12:33:09 Got item = User 情深义重
+2019/01/12 12:33:09 Got item = User 百善孝为先
+2019/01/12 12:33:09 Got item = User 我不乖
+2019/01/12 12:33:09 Got item = User 心痛的感觉
+2019/01/12 12:33:09 Got item = User 换种方式生活
+2019/01/12 12:33:09 Got item = User 流浪雪
+2019/01/12 12:33:09 Got item = User 好感觉没有距离
+2019/01/12 12:33:09 Got item = User 没那种命
+2019/01/12 12:33:09 Got item = User 爱的天堂
+2019/01/12 12:33:09 Got item = User 女人花
+2019/01/12 12:33:09 Got item = User 心悦
+2019/01/12 12:33:09 Got item = User 虐心砝码
+2019/01/12 12:33:09 Got item = User 麦甜
+2019/01/12 12:33:09 Fetching http://album.zhenai.com/u/1699543086
+2019/01/12 12:33:09 Fetching http://album.zhenai.com/u/1426975040
+2019/01/12 12:33:09 Fetching http://album.zhenai.com/u/1130447736
+

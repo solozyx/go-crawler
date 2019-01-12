@@ -10,3 +10,6 @@ go distributed crawler using net/http regexp elastic-search
 * Engine调度Requests任务队列,Fetcher(Url)抓取网页文本,转为UTF-8编码,返回给Engine
 * Engine把Fetcher返回的UTF-8编码的网页原始文本数据交给Parser解析,Parser解析后返回Engine解析结果 ParseResult{Requests []Request,Items []interface{}}
 * Engine把Parser返回的[]Request添加到任务队列,打印Items数据存储展示
+
+## 并发版爬虫架构
+![image](https://github.com/solozyx/go-crawler/blob/master/screenshots/multitask.png)

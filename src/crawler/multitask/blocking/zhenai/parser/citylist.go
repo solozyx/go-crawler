@@ -3,7 +3,7 @@ package parser
 import (
 	"regexp"
 	"fmt"
-	"crawler/singletask/engine"
+	"crawler/multitask/blocking/engine"
 )
 
 // <a href="http://www.zhenai.com/zhenghun/aba" data-v-473e2ba0="">阿坝</a>
