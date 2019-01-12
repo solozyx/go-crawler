@@ -5,20 +5,14 @@ import (
 	"fmt"
 	"bufio"
 	"io/ioutil"
-	"time"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/unicode"
 )
 
-// 100毫秒执行一次请求
-var rateLimiter = time.Tick(100 * time.Millisecond)
-
 // fetch到的网页数据 该url不能获取数据则err
 func Fetch(url string) ([]byte, error) {
-	<- rateLimiter
-
 	// resp,err := http.Get(url)
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
 	req.Header.Set("User-Agent",

@@ -5,14 +5,22 @@ import (
 	"fmt"
 	"bufio"
 	"io/ioutil"
+	"time"
 	"golang.org/x/net/html/charset"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/unicode"
 )
 
+// TODO 待爬取目标网站如果爬取网络流量正常稳定可以适当减少等待时间
+
+// 10毫秒执行一次请求
+var rateLimiter = time.Tick(10 * time.Millisecond)
+
 // fetch到的网页数据 该url不能获取数据则err
 func Fetch(url string) ([]byte, error) {
+	<- rateLimiter
+
 	// resp,err := http.Get(url)
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
 	req.Header.Set("User-Agent",

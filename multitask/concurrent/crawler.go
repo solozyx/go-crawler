@@ -1,9 +1,9 @@
 package main
 
 import (
-	"crawler/multitask/blocking/zhenai/parser"
-	"crawler/multitask/blocking/scheduler"
-	"crawler/multitask/blocking/engine"
+	"crawler/multitask/concurrent/zhenai/parser"
+	"crawler/multitask/concurrent/scheduler"
+	"crawler/multitask/concurrent/engine"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 
 	e := &engine.ConcurrentEngine{
 		Scheduler:&scheduler.SimpleScheduler{},
-		WorkerCount:2,
+		WorkerCount:100,
 	}
 	e.Run(engine.Request{
 		Url:"http://www.zhenai.com/zhenghun",

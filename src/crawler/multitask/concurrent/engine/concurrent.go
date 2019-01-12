@@ -23,24 +23,23 @@ func (e *ConcurrentEngine)Run(seeds ...Request){
 	out := make(chan ParseResult)
 
 	for i := 0; i < e.WorkerCount; i++{
-		log.Printf("Engine 在 main协程 开启 WorkerCount = %d 个子协程",e.WorkerCount)
 		createWorker(in,out)
 	}
 
 	for _,r := range seeds{
-		log.Printf("Engine 在 main协程 向 in chan 投递 Request 解除 Worker 子协程阻塞")
 		e.Scheduler.Submit(r)
 	}
 
+	itemCount := 0
+	// 程序没有退出条件 一直轮询等待新数据
 	for {
 		result := <- out
-		log.Printf("Engine main协程 消费 out chan 解除 Worker 子协程阻塞")
 		for _,item := range result.Items{
-			log.Printf("Got item = %v \n",item)
+			itemCount ++
+			log.Printf("Got #%d : item = %v \n",itemCount,item)
 		}
 		for _,request := range result.Requests{
 			// 这里结构体值传递
-			log.Printf("Engine main协程 阻塞 等待Worker子协程消费 in chan ...")
 			e.Scheduler.Submit(request)
 		}
 	}
@@ -49,22 +48,12 @@ func (e *ConcurrentEngine)Run(seeds ...Request){
 func createWorker(in chan Request,out chan ParseResult){
 	go func() {
 		for{
-			log.Printf("Worker 子协程阻塞...")
 			request := <- in
-			log.Printf("Worker 子协程解除阻塞,开始爬取网页")
 			result,err := worker(request)
 			if err != nil{
 				continue
 			}
-			log.Printf("Worker 子协程 爬取网页结束 返回main协程 result")
-			log.Printf("Worker 子协程 阻塞 等待 main协程 消费 out chan ...")
 			out <- result
-
-			//select {
-			//case out<-result:
-			//default:
-			//	log.Printf("Worker blocking...\n")
-			//}
 		}
 	}()
 }
