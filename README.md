@@ -49,3 +49,16 @@ func Fetch(url string) ([]byte, error) {
 3. 有了Request 和 Worker ，把自己选择的Request发给自己选择的Worker，控制力度增大
 4. 100个Worker子goroutine爬取网页文本数据正则计算,1个子goroutine调度队列,大幅减少子goroutine数量
 5. 去掉流控限制最大流量峰值也有 4M-5M 速度非常快,也被目标网站禁掉了, 引入队列的实现和并发分发实现性能差不多,控制力度提高
+
+### 待存储数据并发分发
+![image](https://github.com/solozyx/go-crawler/blob/master/screenshots/itemsaver.png)
+* Itemsaver存储数据的速度 远远快于 Worker拿到Request爬取网页获取数据的速度
+从目标网站获取网络数据比本地的数据存储要慢很多,从网络拉数据,去重,rateLimiter限流不能拿太快
+存储是自己能控制的,开足马力去存储
+因此假设，存储Item的速度比从网上获取用户数据的速度快很多,为每个Item创建goroutine之后,Item会很快被消费掉,使用`SimpleScheduler`调度器即可
+为每个Item开1个goroutine `消费Item的速度 >> 生成Item的速度` 所以开出来的goroutine不会太多
+极端情况,爬虫运行项目挺久了1-2分钟也就拿到10万个人的数据,最多也就开 10万个goroutine而已,goroutine开 10万个 而且这么简单的goroutine 在性能上的代价是非常小的
+```
+go func(){ItemChan <- Item}()
+```
+
