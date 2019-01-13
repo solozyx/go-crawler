@@ -18,7 +18,8 @@ func ParseCityList(contents []byte) engine.ParseResult {
 	// TODO 为了便于测试 限制城市数量
 	// limit := 1
 	for _,m := range matches{
-		result.Items = append(result.Items,"City " + string(m[2]))
+		// 城市名 不做存储不生成
+		// result.Items = append(result.Items,"City " + string(m[2]))
 		result.Requests = append(result.Requests,engine.Request{
 			Url:string(m[1]),
 			// nil可编译运行但是调用nil()会panic ParserFunc:nil,

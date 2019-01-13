@@ -58,18 +58,24 @@ func (e *ConcurrentEngine)Run(seeds ...Request){
 	}
 
 	for _,r := range seeds{
+		if isDuplicate(r.Url){
+			continue
+		}
 		e.Scheduler.Submit(r)
 	}
 
-	itemCount := 0
+	itmeCount := 0
 	// 程序没有退出条件 一直轮询等待新数据
 	for {
 		result := <- out
 		for _,item := range result.Items{
-			itemCount ++
-			log.Printf("Got #%d : item = %v \n",itemCount,item)
+			itmeCount ++
+			log.Printf("Got item #%d : %v \n",itmeCount,item)
 		}
 		for _,request := range result.Requests{
+			 if isDuplicate(request.Url){
+			 	continue
+			 }
 			// 这里结构体值传递
 			e.Scheduler.Submit(request)
 		}
