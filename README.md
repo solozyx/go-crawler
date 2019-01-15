@@ -62,3 +62,6 @@ func Fetch(url string) ([]byte, error) {
 go func(){ItemChan <- Item}()
 ```
 
+### 并发版单体爬虫应用
+![image](https://github.com/solozyx/go-crawler/blob/master/screenshots/singleapp.png)
+ElasticSearch做数据存储引擎

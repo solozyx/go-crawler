@@ -1,5 +1,7 @@
 package model
 
+import "encoding/json"
+
 // 爬虫项目不局限于某个特定网站 可以爬取各种网站
 // 每个网站的爬取作为1个业务 最后爬取到的数据 希望能够汇总起来
 // 汇总到统一的数据库 让数据更有价值
@@ -32,4 +34,15 @@ type Profile struct {
 	House string
 	// 汽车
 	Car string
+}
+
+func FromJsonObj(o interface{}) (Profile,error) {
+	var p Profile
+	strData,err := json.Marshal(o)
+	if err != nil{
+		return p,err
+	}
+	err = json.Unmarshal(strData,&p)
+	return p,nil
+
 }
