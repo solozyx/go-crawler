@@ -19,16 +19,18 @@ type Scheduler interface {
 func (e *ConcurrentEngine)Run(seeds ...Request){
 	// 所有worker共用1个input/output channel
 	in := make(chan Request)
+	// interface method
 	e.Scheduler.ConfigureMasterWorkerChan(in)
 	out := make(chan ParseResult)
 
 	for i := 0; i < e.WorkerCount; i++{
-		log.Printf("Engine 在 main协程 开启 WorkerCount = %d 个子协程",e.WorkerCount)
+		log.Printf("Engine 在 main协程 开启 WorkerCount = %d 个子协程, goroutine No = %d",e.WorkerCount,i)
 		createWorker(in,out)
 	}
 
 	for _,r := range seeds{
 		log.Printf("Engine 在 main协程 向 in chan 投递 Request 解除 Worker 子协程阻塞")
+		// interface use
 		e.Scheduler.Submit(r)
 	}
 
@@ -41,6 +43,7 @@ func (e *ConcurrentEngine)Run(seeds ...Request){
 		for _,request := range result.Requests{
 			// 这里结构体值传递
 			log.Printf("Engine main协程 阻塞 等待Worker子协程消费 in chan ...")
+			// interface use
 			e.Scheduler.Submit(request)
 		}
 	}

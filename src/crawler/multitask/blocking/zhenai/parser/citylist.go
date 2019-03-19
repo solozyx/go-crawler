@@ -10,11 +10,14 @@ import (
 const cityListRe = `<a href="(http://www.zhenai.com/zhenghun/[0-9a-z]+)"[^>]*>([^<]+)</a>`
 
 // contents 原网页转为UTF-8编码的text文本数据
-// []Requet []Item
+// []Request []Item
 func ParseCityList(contents []byte) engine.ParseResult {
 	re := regexp.MustCompile(cityListRe)
 	matches := re.FindAllSubmatch(contents,-1)
+	fmt.Printf("Matches found citys count = %d \n",len(matches))
+
 	result := engine.ParseResult{}
+
 	// TODO 为了便于测试 限制城市数量
 	limit := 1
 	for _,m := range matches{
@@ -30,6 +33,6 @@ func ParseCityList(contents []byte) engine.ParseResult {
 			break
 		}
 	}
-	fmt.Printf("Matches found citys count = %d \n",len(matches))
+
 	return result
 }
