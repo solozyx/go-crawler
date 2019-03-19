@@ -26,6 +26,7 @@ func Run(seeds ...Request) {
 
 		// 解析原始网页文本数据
 		parseResult := r.ParserFunc(body)
+
 		// 添加parseResult所有的Request到requests
 		requests = append(requests,parseResult.Requests...)
 		for _,item := range parseResult.Items {

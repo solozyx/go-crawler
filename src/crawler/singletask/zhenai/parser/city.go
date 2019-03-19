@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"crawler/singletask/engine"
 	"regexp"
+	"crawler/singletask/engine"
 )
 
 // <a href="http://album.zhenai.com/u/99767952" target="_blank">慕斯</a>
@@ -12,6 +12,7 @@ func ParseCity(contents []byte) engine.ParseResult{
 	re := regexp.MustCompile(cityRe)
 	matches := re.FindAllSubmatch(contents,-1)
 	result := engine.ParseResult{}
+	// matches [][][]byte <=> [][]string -> m []string
 	for _,m := range matches{
 		// result.Items = append(result.Items,"User " + string(m[2]))
 		name := string(m[2])
