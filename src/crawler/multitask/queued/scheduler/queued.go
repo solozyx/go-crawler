@@ -8,6 +8,7 @@ type QueuedScheduler struct {
 	// 每1个worker创建1个不同的 chan engine.Request
 	// 100个worker就是100个chan
 	// 这100个chan如何调节 再装入1个总的chan
+	// Scheduler选择了这个worker对应的 chan engine.Request 调度给它的chan发送数据
 	workerChan chan chan engine.Request
 }
 
