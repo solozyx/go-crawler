@@ -19,7 +19,7 @@ func ParseCityList(contents []byte) engine.ParseResult {
 	result := engine.ParseResult{}
 
 	// TODO 为了便于测试 限制城市数量
-	limit := 1
+	limit := 100
 	// matches [][][]byte <=> [][]string -> m []string
 	for _,m := range matches{
 		result.Items = append(result.Items,"City " + string(m[2]))

@@ -1,9 +1,12 @@
 package main
 
 import (
-	"crawler/multitask/queued/zhenai/parser"
-	"crawler/multitask/queued/scheduler"
+	"net/http"
+	_ "net/http/pprof"
+
 	"crawler/multitask/queued/engine"
+	"crawler/multitask/queued/scheduler"
+	"crawler/multitask/queued/zhenai/parser"
 )
 
 func main() {
@@ -14,6 +17,12 @@ func main() {
 	})
 	*/
 
+	// pprof
+	go func() {
+		http.ListenAndServe(":6060", nil)
+	}()
+
+	// start crawler
 	e := &engine.ConcurrentEngine{
 		// Scheduler:&scheduler.SimpleScheduler{},
 		Scheduler:&scheduler.QueuedScheduler{},

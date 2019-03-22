@@ -19,7 +19,7 @@ func ParseCityList(contents []byte) engine.ParseResult {
 	result := engine.ParseResult{}
 
 	// TODO 为了便于测试 限制城市数量
-	limit := 1
+//	limit := 1
 	for _,m := range matches{
 		result.Items = append(result.Items,"City " + string(m[2]))
 		result.Requests = append(result.Requests,engine.Request{
@@ -28,10 +28,10 @@ func ParseCityList(contents []byte) engine.ParseResult {
 			// ParserFunc:engine.NilParser,
 			ParserFunc:ParseCity, // 针对这里的Url使用ParseCity来解析
 		})
-		limit --
-		if limit == 0 {
-			break
-		}
+//		limit --
+//		if limit == 0 {
+//			break
+//		}
 	}
 
 	return result

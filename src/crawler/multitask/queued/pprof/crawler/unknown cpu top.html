@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://localhost:8080/ui/top -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>unknown cpu</title>
+  
+<style type="text/css">
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+}
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 13px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+}
+a {
+  color: #2a66d9;
+}
+.header {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  min-height: 44px;
+  background-color: #eee;
+  color: #212121;
+  padding: 0 1rem;
+}
+.header > div {
+  margin: 0 0.125em;
+}
+.header .title h1 {
+  font-size: 1.75em;
+  margin-right: 1rem;
+}
+.header .title a {
+  color: #212121;
+  text-decoration: none;
+}
+.header .title a:hover {
+  text-decoration: underline;
+}
+.header .description {
+  width: 100%;
+  text-align: right;
+  white-space: nowrap;
+}
+@media screen and (max-width: 799px) {
+  .header input {
+    display: none;
+  }
+}
+#detailsbox {
+  display: none;
+  z-index: 1;
+  position: fixed;
+  top: 40px;
+  right: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 1px 5px rgba(0,0,0,.3);
+  line-height: 24px;
+  padding: 1em;
+  text-align: left;
+}
+.header input {
+  background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' style='pointer-events:none;display:block;width:100%25;height:100%25;fill:#757575'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61.0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3C/svg%3E") no-repeat 4px center/20px 20px;
+  border: 1px solid #d1d2d3;
+  border-radius: 2px 0 0 2px;
+  padding: 0.25em;
+  padding-left: 28px;
+  margin-left: 1em;
+  font-family: 'Roboto', 'Noto', sans-serif;
+  font-size: 1em;
+  line-height: 24px;
+  color: #212121;
+}
+.downArrow {
+  border-top: .36em solid #ccc;
+  border-left: .36em solid transparent;
+  border-right: .36em solid transparent;
+  margin-bottom: .05em;
+  margin-left: .5em;
+  transition: border-top-color 200ms;
+}
+.menu-item {
+  height: 100%;
+  text-transform: uppercase;
+  font-family: 'Roboto Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  position: relative;
+}
+.menu-item .menu-name:hover {
+  opacity: 0.75;
+}
+.menu-item .menu-name:hover .downArrow {
+  border-top-color: #666;
+}
+.menu-name {
+  height: 100%;
+  padding: 0 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.submenu {
+  display: none;
+  z-index: 1;
+  margin-top: -4px;
+  min-width: 10em;
+  position: absolute;
+  left: 0px;
+  background-color: white;
+  box-shadow: 0 1px 5px rgba(0,0,0,.3);
+  font-size: 100%;
+  text-transform: none;
+}
+.menu-item, .submenu {
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+.submenu hr {
+  border: 0;
+  border-top: 2px solid #eee;
+}
+.submenu a {
+  display: block;
+  padding: .5em 1em;
+  text-decoration: none;
+}
+.submenu a:hover, .submenu a.active {
+  color: white;
+  background-color: #6b82d6;
+}
+.submenu a.disabled {
+  color: gray;
+  pointer-events: none;
+}
+
+#content {
+  overflow-y: scroll;
+  padding: 1em;
+}
+#top {
+  overflow-y: scroll;
+}
+#graph {
+  overflow: hidden;
+}
+#graph svg {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+#content.source .filename {
+  margin-top: 0;
+  margin-bottom: 1em;
+  font-size: 120%;
+}
+#content.source pre {
+  margin-bottom: 3em;
+}
+table {
+  border-spacing: 0px;
+  width: 100%;
+  padding-bottom: 1em;
+  white-space: nowrap;
+}
+table thead {
+  font-family: 'Roboto Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+table tr th {
+  background-color: #ddd;
+  text-align: right;
+  padding: .3em .5em;
+}
+table tr td {
+  padding: .3em .5em;
+  text-align: right;
+}
+#top table tr th:nth-child(6),
+#top table tr th:nth-child(7),
+#top table tr td:nth-child(6),
+#top table tr td:nth-child(7) {
+  text-align: left;
+}
+#top table tr td:nth-child(6) {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+#flathdr1, #flathdr2, #cumhdr1, #cumhdr2, #namehdr {
+  cursor: ns-resize;
+}
+.hilite {
+  background-color: #ebf5fb;
+  font-weight: bold;
+}
+</style>
+
+  <style type="text/css">
+  </style>
+</head>
+<body>
+  
+<div class="header">
+  <div class="title">
+    <h1><a href="http://localhost:8080/ui/">pprof</a></h1>
+  </div>
+
+  <div id="view" class="menu-item">
+    <div class="menu-name">
+      View
+      <i class="downArrow"></i>
+    </div>
+    <div class="submenu">
+      <a title="Outputs top entries in text form" href="http://localhost:8080/ui/top" id="topbtn">Top</a>
+      <a title="Display profile as a directed graph" href="http://localhost:8080/ui/" id="graphbtn">Graph</a>
+      <a title="" href="http://localhost:8080/ui/flamegraph" id="flamegraph">Flame Graph</a>
+      <a title="Output callers/callees of functions matching regexp" href="http://localhost:8080/ui/peek" id="peek">Peek</a>
+      <a title="Output annotated source for functions matching regexp" href="http://localhost:8080/ui/source" id="list">Source</a>
+      <a title="Output assembly listings annotated with samples" href="http://localhost:8080/ui/disasm" id="disasm">Disassemble</a>
+    </div>
+  </div>
+
+  
+  
+  <div id="sample" class="menu-item">
+    <div class="menu-name">
+      Sample
+      <i class="downArrow"></i>
+    </div>
+    <div class="submenu">
+      
+      <a href="http://localhost:8080/ui/top?si=samples" id="samples">samples</a>
+      
+      <a href="http://localhost:8080/ui/top?si=cpu" id="cpu">cpu</a>
+      
+    </div>
+  </div>
+  
+
+  <div id="refine" class="menu-item">
+    <div class="menu-name">
+      Refine
+      <i class="downArrow"></i>
+    </div>
+    <div class="submenu">
+      <a title="Restricts to samples going through a node matching regexp
+Discard samples that do not include a node matching this regexp.
+Matching includes the function name, filename or object name.
+" href="http://localhost:8080/ui/top?" id="focus" class="disabled">Focus</a>
+      <a title="Skips paths going through any nodes matching regexp
+If set, discard samples that include a node matching this regexp.
+Matching includes the function name, filename or object name.
+" href="http://localhost:8080/ui/top?" id="ignore" class="disabled">Ignore</a>
+      <a title="Skips nodes matching regexp
+Discard nodes that match this location.
+Other nodes from samples that include this location will be shown.
+Matching includes the function name, filename or object name.
+" href="http://localhost:8080/ui/top?" id="hide" class="disabled">Hide</a>
+      <a title="Only show nodes matching regexp
+If set, only show nodes that match this location.
+Matching includes the function name, filename or object name.
+" href="http://localhost:8080/ui/top?" id="show" class="disabled">Show</a>
+      <a title="Drops functions above the highest matched frame.
+If set, all frames above the highest match are dropped from every sample.
+Matching includes the function name, filename or object name.
+" href="http://localhost:8080/ui/top?" id="show-from" class="disabled">Show from</a>
+      <hr>
+      <a title="Show the entire profile" href="http://localhost:8080/ui/top?">Reset</a>
+    </div>
+  </div>
+
+  <div>
+    <input id="search" type="text" placeholder="Search regexp" autocomplete="off" autocapitalize="none" size="40">
+  </div>
+
+  <div class="description">
+    <a title="Show information about the profile and this view" href="http://localhost:8080/ui/top#" id="details">unknown cpu</a>
+    <div id="detailsbox">
+      <div>Type: cpu</div><div>Time: Mar 22, 2019 at 5:19pm (CST)</div><div>Duration: 30.14s, Total samples = 12.51s (41.50%)</div><div>Showing nodes accounting for 10.90s, 87.13% of 12.51s total</div><div>Dropped 300 nodes (cum &lt;= 0.06s)</div>
+    </div>
+  </div>
+</div>
+
+<div id="errors"></div>
+
+  <div id="top">
+    <table id="toptable">
+      <thead>
+        <tr>
+          <th id="flathdr1">Flat</th>
+          <th id="flathdr2">Flat%</th>
+          <th>Sum%</th>
+          <th id="cumhdr1">Cum</th>
+          <th id="cumhdr2">Cum%</th>
+          <th id="namehdr">Name</th>
+          <th>Inlined?</th>
+        </tr>
+      </thead>
+      <tbody id="rows"><tr id="node0"><td>3.78s</td><td>30.22%</td><td>30.22%</td><td>3.81s</td><td>30.46%</td><td>runtime.cgocall</td><td></td></tr><tr id="node1"><td>1.10s</td><td>8.79%</td><td>39.01%</td><td>1.74s</td><td>13.91%</td><td>compress/flate.(*decompressor).huffSym</td><td></td></tr><tr id="node2"><td>0.58s</td><td>4.64%</td><td>43.65%</td><td>0.77s</td><td>6.16%</td><td>bufio.(*Reader).ReadByte</td><td></td></tr><tr id="node3"><td>0.48s</td><td>3.84%</td><td>47.48%</td><td>0.50s</td><td>4.00%</td><td>vendor/golang.org/x/text/encoding/unicode.utf8Decoder.Transform</td><td></td></tr><tr id="node4"><td>0.47s</td><td>3.76%</td><td>51.24%</td><td>3.14s</td><td>25.10%</td><td>compress/flate.(*decompressor).huffmanBlock</td><td></td></tr><tr id="node5"><td>0.37s</td><td>2.96%</td><td>54.20%</td><td>0.37s</td><td>2.96%</td><td>runtime.memmove</td><td></td></tr><tr id="node6"><td>0.34s</td><td>2.72%</td><td>56.91%</td><td>0.83s</td><td>6.63%</td><td>runtime.scanobject</td><td></td></tr><tr id="node7"><td>0.27s</td><td>2.16%</td><td>59.07%</td><td>0.37s</td><td>2.96%</td><td>runtime.findObject</td><td></td></tr><tr id="node8"><td>0.23s</td><td>1.84%</td><td>60.91%</td><td>0.48s</td><td>3.84%</td><td>compress/flate.(*dictDecoder).tryWriteCopy</td><td></td></tr><tr id="node9"><td>0.21s</td><td>1.68%</td><td>62.59%</td><td>0.23s</td><td>1.84%</td><td>runtime.step</td><td></td></tr><tr id="node10"><td>0.20s</td><td>1.60%</td><td>64.19%</td><td>0.20s</td><td>1.60%</td><td>runtime.(*guintptr).cas</td><td></td></tr><tr id="node12"><td>0.19s</td><td>1.52%</td><td>65.71%</td><td>0.19s</td><td>1.52%</td><td>runtime.stdcall1</td><td></td></tr><tr id="node11"><td>0.19s</td><td>1.52%</td><td>67.23%</td><td>0.43s</td><td>3.44%</td><td>runtime.pcvalue</td><td></td></tr><tr id="node13"><td>0.16s</td><td>1.28%</td><td>68.51%</td><td>0.34s</td><td>2.72%</td><td>regexp.(*machine).step</td><td></td></tr><tr id="node14"><td>0.15s</td><td>1.20%</td><td>69.70%</td><td>0.29s</td><td>2.32%</td><td>compress/flate.(*decompressor).moreBits</td><td></td></tr><tr id="node15"><td>0.14s</td><td>1.12%</td><td>70.82%</td><td>0.22s</td><td>1.76%</td><td>runtime.greyobject</td><td></td></tr><tr id="node16"><td>0.13s</td><td>1.04%</td><td>71.86%</td><td>0.13s</td><td>1.04%</td><td>runtime.stdcall6</td><td></td></tr><tr id="node18"><td>0.11s</td><td>0.88%</td><td>72.74%</td><td>0.11s</td><td>0.88%</td><td>runtime.spanOf</td><td></td></tr><tr id="node17"><td>0.11s</td><td>0.88%</td><td>73.62%</td><td>0.11s</td><td>0.88%</td><td>compress/flate.(*dictDecoder).writeByte</td><td></td></tr><tr id="node19"><td>0.10s</td><td>0.80%</td><td>74.42%</td><td>0.14s</td><td>1.12%</td><td>runtime.lock</td><td></td></tr><tr id="node21"><td>0.09s</td><td>0.72%</td><td>75.14%</td><td>0.14s</td><td>1.12%</td><td>runtime.scanblock</td><td></td></tr><tr id="node20"><td>0.09s</td><td>0.72%</td><td>75.86%</td><td>0.09s</td><td>0.72%</td><td>runtime.memclrNoHeapPointers</td><td></td></tr><tr id="node24"><td>0.08s</td><td>0.64%</td><td>76.50%</td><td>0.78s</td><td>6.24%</td><td>runtime.mallocgc</td><td></td></tr><tr id="node23"><td>0.08s</td><td>0.64%</td><td>77.14%</td><td>0.80s</td><td>6.39%</td><td>runtime.gentraceback</td><td></td></tr><tr id="node22"><td>0.08s</td><td>0.64%</td><td>77.78%</td><td>0.29s</td><td>2.32%</td><td>regexp.(*machine).add</td><td></td></tr><tr id="node27"><td>0.07s</td><td>0.56%</td><td>78.34%</td><td>0.07s</td><td>0.56%</td><td>runtime.markBits.isMarked</td><td></td></tr><tr id="node26"><td>0.07s</td><td>0.56%</td><td>78.90%</td><td>0.23s</td><td>1.84%</td><td>runtime.gcWriteBarrier</td><td></td></tr><tr id="node25"><td>0.07s</td><td>0.56%</td><td>79.46%</td><td>0.07s</td><td>0.56%</td><td>indexbytebody</td><td></td></tr><tr id="node28"><td>0.06s</td><td>0.48%</td><td>79.94%</td><td>0.33s</td><td>2.64%</td><td>runtime.getStackMap</td><td></td></tr><tr id="node30"><td>0.05s</td><td>0.40%</td><td>80.34%</td><td>0.12s</td><td>0.96%</td><td>runtime.selectgo</td><td></td></tr><tr id="node29"><td>0.05s</td><td>0.40%</td><td>80.74%</td><td>0.17s</td><td>1.36%</td><td>bytes.Index</td><td></td></tr><tr id="node33"><td>0.04s</td><td>0.32%</td><td>81.06%</td><td>2.03s</td><td>16.23%</td><td>vendor/golang.org/x/text/transform.(*Reader).Read</td><td></td></tr><tr id="node32"><td>0.04s</td><td>0.32%</td><td>81.37%</td><td>0.44s</td><td>3.52%</td><td>runtime.scanframeworker</td><td></td></tr><tr id="node31"><td>0.04s</td><td>0.32%</td><td>81.69%</td><td>0.72s</td><td>5.76%</td><td>regexp.(*machine).match</td><td></td></tr><tr id="node37"><td>0.03s</td><td>0.24%</td><td>81.93%</td><td>0.55s</td><td>4.40%</td><td>runtime.schedule</td><td></td></tr><tr id="node36"><td>0.03s</td><td>0.24%</td><td>82.17%</td><td>0.60s</td><td>4.80%</td><td>runtime.mcall</td><td></td></tr><tr id="node35"><td>0.03s</td><td>0.24%</td><td>82.41%</td><td>0.12s</td><td>0.96%</td><td>runtime.(*mcentral).cacheSpan</td><td></td></tr><tr id="node34"><td>0.03s</td><td>0.24%</td><td>82.65%</td><td>2.19s</td><td>17.51%</td><td>bufio.(*Reader).fill</td><td></td></tr><tr id="node48"><td>0.02s</td><td>0.16%</td><td>82.81%</td><td>0.17s</td><td>1.36%</td><td>runtime.wbBufFlush1</td><td></td></tr><tr id="node47"><td>0.02s</td><td>0.16%</td><td>82.97%</td><td>0.19s</td><td>1.52%</td><td>runtime.startm</td><td></td></tr><tr id="node46"><td>0.02s</td><td>0.16%</td><td>83.13%</td><td>0.46s</td><td>3.68%</td><td>runtime.scanstack.func1</td><td></td></tr><tr id="node45"><td>0.02s</td><td>0.16%</td><td>83.29%</td><td>0.84s</td><td>6.71%</td><td>runtime.scanstack</td><td></td></tr><tr id="node44"><td>0.02s</td><td>0.16%</td><td>83.45%</td><td>0.87s</td><td>6.95%</td><td>runtime.scang</td><td></td></tr><tr id="node43"><td>0.02s</td><td>0.16%</td><td>83.61%</td><td>0.09s</td><td>0.72%</td><td>runtime.ready</td><td></td></tr><tr id="node42"><td>0.02s</td><td>0.16%</td><td>83.77%</td><td>0.17s</td><td>1.36%</td><td>runtime.netpoll</td><td></td></tr><tr id="node41"><td>0.02s</td><td>0.16%</td><td>83.93%</td><td>0.92s</td><td>7.35%</td><td>runtime.markroot</td><td></td></tr><tr id="node40"><td>0.02s</td><td>0.16%</td><td>84.09%</td><td>0.42s</td><td>3.36%</td><td>runtime.gcDrainN</td><td></td></tr><tr id="node39"><td>0.02s</td><td>0.16%</td><td>84.25%</td><td>0.54s</td><td>4.32%</td><td>net/http.(*persistConn).readLoop</td><td></td></tr><tr id="node38"><td>0.02s</td><td>0.16%</td><td>84.41%</td><td>1.07s</td><td>8.55%</td><td>internal/poll.(*ioSrv).ExecIO</td><td></td></tr><tr id="node82"><td>0.01s</td><td>0.08%</td><td>84.49%</td><td>0.19s</td><td>1.52%</td><td>syscall.bind</td><td></td></tr><tr id="node81"><td>0.01s</td><td>0.08%</td><td>84.57%</td><td>0.31s</td><td>2.48%</td><td>syscall.WSARecv</td><td></td></tr><tr id="node80"><td>0.01s</td><td>0.08%</td><td>84.65%</td><td>1s</td><td>7.99%</td><td>syscall.Syscall9</td><td></td></tr><tr id="node79"><td>0.01s</td><td>0.08%</td><td>84.73%</td><td>0.13s</td><td>1.04%</td><td>syscall.SetsockoptInt</td><td></td></tr><tr id="node78"><td>0.01s</td><td>0.08%</td><td>84.81%</td><td>0.17s</td><td>1.36%</td><td>runtime.wbBufFlush</td><td></td></tr><tr id="node77"><td>0.01s</td><td>0.08%</td><td>84.89%</td><td>2.38s</td><td>19.02%</td><td>runtime.systemstack</td><td></td></tr><tr id="node76"><td>0.01s</td><td>0.08%</td><td>84.97%</td><td>0.20s</td><td>1.60%</td><td>runtime.runqgrab</td><td></td></tr><tr id="node75"><td>0.01s</td><td>0.08%</td><td>85.05%</td><td>0.48s</td><td>3.84%</td><td>runtime.park_m</td><td></td></tr><tr id="node74"><td>0.01s</td><td>0.08%</td><td>85.13%</td><td>0.20s</td><td>1.60%</td><td>runtime.notewakeup</td><td></td></tr><tr id="node73"><td>0.01s</td><td>0.08%</td><td>85.21%</td><td>0.33s</td><td>2.64%</td><td>runtime.newobject</td><td></td></tr><tr id="node72"><td>0.01s</td><td>0.08%</td><td>85.29%</td><td>0.25s</td><td>2.00%</td><td>runtime.makeslice</td><td></td></tr><tr id="node71"><td>0.01s</td><td>0.08%</td><td>85.37%</td><td>0.08s</td><td>0.64%</td><td>runtime.growslice</td><td></td></tr><tr id="node70"><td>0.01s</td><td>0.08%</td><td>85.45%</td><td>1.42s</td><td>11.35%</td><td>runtime.gcDrain</td><td></td></tr><tr id="node69"><td>0.01s</td><td>0.08%</td><td>85.53%</td><td>0.18s</td><td>1.44%</td><td>runtime.funcspdelta</td><td></td></tr><tr id="node68"><td>0.01s</td><td>0.08%</td><td>85.61%</td><td>0.41s</td><td>3.28%</td><td>runtime.findrunnable</td><td></td></tr><tr id="node67"><td>0.01s</td><td>0.08%</td><td>85.69%</td><td>0.08s</td><td>0.64%</td><td>runtime.(*mheap).alloc.func1</td><td></td></tr><tr id="node66"><td>0.01s</td><td>0.08%</td><td>85.77%</td><td>0.09s</td><td>0.72%</td><td>runtime.(*mcentral).grow</td><td></td></tr><tr id="node65"><td>0.01s</td><td>0.08%</td><td>85.85%</td><td>0.13s</td><td>1.04%</td><td>runtime.(*mcache).refill</td><td></td></tr><tr id="node64"><td>0.01s</td><td>0.08%</td><td>85.93%</td><td>0.07s</td><td>0.56%</td><td>regexp.(*machine).alloc</td><td></td></tr><tr id="node63"><td>0.01s</td><td>0.08%</td><td>86.01%</td><td>0.79s</td><td>6.31%</td><td>regexp.(*Regexp).FindSubmatch</td><td></td></tr><tr id="node62"><td>0.01s</td><td>0.08%</td><td>86.09%</td><td>0.07s</td><td>0.56%</td><td>net/http.NewRequest</td><td></td></tr><tr id="node61"><td>0.01s</td><td>0.08%</td><td>86.17%</td><td>0.40s</td><td>3.20%</td><td>net/http.(*persistConn).Read</td><td></td></tr><tr id="node60"><td>0.01s</td><td>0.08%</td><td>86.25%</td><td>0.07s</td><td>0.56%</td><td>net/http.(*Transport).getConn</td><td></td></tr><tr id="node59"><td>0.01s</td><td>0.08%</td><td>86.33%</td><td>1.35s</td><td>10.79%</td><td>net/http.(*Transport).dialConn</td><td></td></tr><tr id="node58"><td>0.01s</td><td>0.08%</td><td>86.41%</td><td>0.11s</td><td>0.88%</td><td>net/http.(*Request).write</td><td></td></tr><tr id="node57"><td>0.01s</td><td>0.08%</td><td>86.49%</td><td>0.81s</td><td>6.47%</td><td>net.(*netFD).connect</td><td></td></tr><tr id="node56"><td>0.01s</td><td>0.08%</td><td>86.57%</td><td>1.29s</td><td>10.31%</td><td>net.(*Dialer).DialContext</td><td></td></tr><tr id="node55"><td>0.01s</td><td>0.08%</td><td>86.65%</td><td>0.11s</td><td>0.88%</td><td>internal/poll.(*FD).SetsockoptInt</td><td></td></tr><tr id="node54"><td>0.01s</td><td>0.08%</td><td>86.73%</td><td>0.43s</td><td>3.44%</td><td>internal/poll.(*FD).ConnectEx</td><td></td></tr><tr id="node53"><td>0.01s</td><td>0.08%</td><td>86.81%</td><td>0.25s</td><td>2.00%</td><td>compress/gzip.(*Reader).readHeader</td><td></td></tr><tr id="node52"><td>0.01s</td><td>0.08%</td><td>86.89%</td><td>2.16s</td><td>17.27%</td><td>bytes.(*Buffer).ReadFrom</td><td></td></tr><tr id="node51"><td>0.01s</td><td>0.08%</td><td>86.97%</td><td>0.09s</td><td>0.72%</td><td>bufio.NewReaderSize</td><td></td></tr><tr id="node50"><td>0.01s</td><td>0.08%</td><td>87.05%</td><td>0.12s</td><td>0.96%</td><td>bufio.(*Reader).ReadSlice</td><td></td></tr><tr id="node49"><td>0.01s</td><td>0.08%</td><td>87.13%</td><td>1.74s</td><td>13.91%</td><td>bufio.(*Reader).Read</td><td></td></tr><tr id="node196"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.08s</td><td>0.64%</td><td>vendor/golang.org/x/net/html/charset.prescan</td><td></td></tr><tr id="node195"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.10s</td><td>0.80%</td><td>vendor/golang.org/x/net/html/charset.DetermineEncoding</td><td></td></tr><tr id="node194"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.41s</td><td>3.28%</td><td>syscall.connectEx</td><td></td></tr><tr id="node193"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>syscall.WriteFile</td><td></td></tr><tr id="node192"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>syscall.Write</td><td></td></tr><tr id="node191"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.29s</td><td>2.32%</td><td>syscall.WSASend</td><td></td></tr><tr id="node190"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.39s</td><td>19.10%</td><td>syscall.Syscall6</td><td></td></tr><tr id="node189"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.49s</td><td>3.92%</td><td>syscall.Syscall</td><td></td></tr><tr id="node188"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.18s</td><td>1.44%</td><td>syscall.Setsockopt</td><td></td></tr><tr id="node187"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>syscall.Getsockname</td><td></td></tr><tr id="node186"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.10s</td><td>16.79%</td><td>syscall.GetAddrInfoW</td><td></td></tr><tr id="node185"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.41s</td><td>3.28%</td><td>syscall.ConnectEx</td><td></td></tr><tr id="node184"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>syscall.Closesocket</td><td></td></tr><tr id="node183"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.19s</td><td>1.52%</td><td>syscall.Bind</td><td></td></tr><tr id="node182"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.16s</td><td>1.28%</td><td>runtime.wbBufFlush.func1</td><td></td></tr><tr id="node181"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.14s</td><td>1.12%</td><td>runtime.wakep</td><td></td></tr><tr id="node180"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.19s</td><td>1.52%</td><td>runtime.semawakeup</td><td></td></tr><tr id="node179"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.20s</td><td>1.60%</td><td>runtime.runqsteal</td><td></td></tr><tr id="node178"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.26s</td><td>2.08%</td><td>runtime.pcdatavalue</td><td></td></tr><tr id="node177"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.08s</td><td>0.64%</td><td>runtime.newstack</td><td></td></tr><tr id="node176"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>runtime.mstart</td><td></td></tr><tr id="node175"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.87s</td><td>6.95%</td><td>runtime.markroot.func1</td><td></td></tr><tr id="node174"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.12s</td><td>0.96%</td><td>runtime.main</td><td></td></tr><tr id="node173"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.09s</td><td>0.72%</td><td>runtime.goready.func1</td><td></td></tr><tr id="node172"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.42s</td><td>11.35%</td><td>runtime.gcBgMarkWorker.func2</td><td></td></tr><tr id="node171"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.38s</td><td>11.03%</td><td>runtime.gcBgMarkWorker</td><td></td></tr><tr id="node170"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.42s</td><td>3.36%</td><td>runtime.gcAssistAlloc1</td><td></td></tr><tr id="node169"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.42s</td><td>3.36%</td><td>runtime.gcAssistAlloc.func1</td><td></td></tr><tr id="node168"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.42s</td><td>3.36%</td><td>runtime.gcAssistAlloc</td><td></td></tr><tr id="node167"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.09s</td><td>0.72%</td><td>runtime.copystack</td><td></td></tr><tr id="node166"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>runtime.(*mheap).alloc_m</td><td></td></tr><tr id="node165"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.14s</td><td>1.12%</td><td>runtime.(*mheap).alloc</td><td></td></tr><tr id="node164"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.14s</td><td>1.12%</td><td>runtime.(*mcache).nextFree</td><td></td></tr><tr id="node163"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.17s</td><td>1.36%</td><td>regexp.(*inputBytes).index</td><td></td></tr><tr id="node162"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.78s</td><td>6.24%</td><td>regexp.(*Regexp).doExecute</td><td></td></tr><tr id="node161"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>os.(*File).write</td><td></td></tr><tr id="node160"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>os.(*File).Write</td><td></td></tr><tr id="node159"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.11s</td><td>0.88%</td><td>net/http/internal.readChunkLine</td><td></td></tr><tr id="node158"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.11s</td><td>0.88%</td><td>net/http/internal.(*chunkedReader).beginChunk</td><td></td></tr><tr id="node157"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.35s</td><td>2.80%</td><td>net/http/internal.(*chunkedReader).Read</td><td></td></tr><tr id="node156"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.17s</td><td>1.36%</td><td>net/http.send</td><td></td></tr><tr id="node155"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.30s</td><td>2.40%</td><td>net/http.persistConnWriter.Write</td><td></td></tr><tr id="node154"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.14s</td><td>1.12%</td><td>net/http.ReadResponse</td><td></td></tr><tr id="node153"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.46s</td><td>3.68%</td><td>net/http.(*persistConn).writeLoop</td><td></td></tr><tr id="node152"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.08s</td><td>0.64%</td><td>net/http.(*persistConn).roundTrip</td><td></td></tr><tr id="node151"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.14s</td><td>1.12%</td><td>net/http.(*persistConn).readResponse</td><td></td></tr><tr id="node150"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>net/http.(*persistConn).readLoop.func1</td><td></td></tr><tr id="node149"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>net/http.(*persistConn).closeLocked</td><td></td></tr><tr id="node148"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>net/http.(*persistConn).close</td><td></td></tr><tr id="node147"><td>0</td><td>0.00%</td><td>87.13%</td><td>3.48s</td><td>27.82%</td><td>net/http.(*gzipReader).Read</td><td></td></tr><tr id="node146"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.36s</td><td>2.88%</td><td>net/http.(*bodyEOFSignal).Read</td><td></td></tr><tr id="node145"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.36s</td><td>2.88%</td><td>net/http.(*body).readLocked</td><td></td></tr><tr id="node144"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.36s</td><td>2.88%</td><td>net/http.(*body).Read</td><td></td></tr><tr id="node143"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.17s</td><td>1.36%</td><td>net/http.(*Transport).roundTrip</td><td></td></tr><tr id="node142"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.35s</td><td>10.79%</td><td>net/http.(*Transport).getConn.func4</td><td></td></tr><tr id="node141"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.29s</td><td>10.31%</td><td>net/http.(*Transport).dial</td><td></td></tr><tr id="node140"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.17s</td><td>1.36%</td><td>net/http.(*Transport).RoundTrip</td><td></td></tr><tr id="node139"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.17s</td><td>1.36%</td><td>net/http.(*Client).send</td><td></td></tr><tr id="node138"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.18s</td><td>1.44%</td><td>net/http.(*Client).do</td><td></td></tr><tr id="node137"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.18s</td><td>1.44%</td><td>net/http.(*Client).Do</td><td></td></tr><tr id="node136"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.06s</td><td>8.47%</td><td>net.socket</td><td></td></tr><tr id="node135"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.06s</td><td>8.47%</td><td>net.internetSocket</td><td></td></tr><tr id="node134"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.12s</td><td>8.95%</td><td>net.(*sysDialer).doDialTCP</td><td></td></tr><tr id="node133"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.12s</td><td>8.95%</td><td>net.(*sysDialer).dialTCP</td><td></td></tr><tr id="node132"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.12s</td><td>8.95%</td><td>net.(*sysDialer).dialSingle</td><td></td></tr><tr id="node131"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.12s</td><td>8.95%</td><td>net.(*sysDialer).dialSerial</td><td></td></tr><tr id="node130"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>net.(*netFD).init</td><td></td></tr><tr id="node129"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.93s</td><td>7.43%</td><td>net.(*netFD).dial</td><td></td></tr><tr id="node128"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.30s</td><td>2.40%</td><td>net.(*netFD).Write</td><td></td></tr><tr id="node127"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.39s</td><td>3.12%</td><td>net.(*netFD).Read</td><td></td></tr><tr id="node126"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.24s</td><td>1.92%</td><td>net.(*netFD).Close</td><td></td></tr><tr id="node125"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.30s</td><td>2.40%</td><td>net.(*conn).Write</td><td></td></tr><tr id="node124"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.39s</td><td>3.12%</td><td>net.(*conn).Read</td><td></td></tr><tr id="node123"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.20s</td><td>1.60%</td><td>net.(*conn).Close</td><td></td></tr><tr id="node122"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.08s</td><td>0.64%</td><td>net.(*Resolver).resolveAddrList</td><td></td></tr><tr id="node121"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.12s</td><td>16.95%</td><td>net.(*Resolver).lookupIP.func2</td><td></td></tr><tr id="node120"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.12s</td><td>16.95%</td><td>net.(*Resolver).lookupIP.func1</td><td></td></tr><tr id="node119"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.08s</td><td>0.64%</td><td>net.(*Resolver).internetAddrList</td><td></td></tr><tr id="node118"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.12s</td><td>0.96%</td><td>main.main</td><td></td></tr><tr id="node117"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.16s</td><td>1.28%</td><td>log.Printf</td><td></td></tr><tr id="node116"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.10s</td><td>0.80%</td><td>log.(*Logger).Output</td><td></td></tr><tr id="node115"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.16s</td><td>17.27%</td><td>io/ioutil.readAll</td><td></td></tr><tr id="node114"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.16s</td><td>17.27%</td><td>io/ioutil.ReadAll</td><td></td></tr><tr id="node113"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.18s</td><td>1.44%</td><td>io.ReadFull</td><td></td></tr><tr id="node112"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.18s</td><td>1.44%</td><td>io.ReadAtLeast</td><td></td></tr><tr id="node111"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>internal/poll.(*FD).destroy</td><td></td></tr><tr id="node110"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>internal/poll.(*FD).decref</td><td></td></tr><tr id="node109"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.29s</td><td>2.32%</td><td>internal/poll.(*FD).Write.func1</td><td></td></tr><tr id="node108"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.37s</td><td>2.96%</td><td>internal/poll.(*FD).Write</td><td></td></tr><tr id="node107"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.31s</td><td>2.48%</td><td>internal/poll.(*FD).Read.func1</td><td></td></tr><tr id="node106"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.39s</td><td>3.12%</td><td>internal/poll.(*FD).Read</td><td></td></tr><tr id="node105"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.07s</td><td>0.56%</td><td>internal/poll.(*FD).Init</td><td></td></tr><tr id="node104"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.41s</td><td>3.28%</td><td>internal/poll.(*FD).ConnectEx.func1</td><td></td></tr><tr id="node103"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.23s</td><td>1.84%</td><td>internal/poll.(*FD).Close</td><td></td></tr><tr id="node102"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.80s</td><td>6.39%</td><td>crawler/multitask/queued/zhenai/parser.extractString</td><td></td></tr><tr id="node101"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.81s</td><td>6.47%</td><td>crawler/multitask/queued/zhenai/parser.ParseProfile</td><td></td></tr><tr id="node100"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.81s</td><td>6.47%</td><td>crawler/multitask/queued/zhenai/parser.ParseCity.func1</td><td></td></tr><tr id="node99"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.08s</td><td>0.64%</td><td>crawler/multitask/queued/scheduler.(*QueuedScheduler).Run.func1</td><td></td></tr><tr id="node98"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.11s</td><td>16.87%</td><td>crawler/multitask/queued/fetcher.determineEncoding</td><td></td></tr><tr id="node97"><td>0</td><td>0.00%</td><td>87.13%</td><td>4.62s</td><td>36.93%</td><td>crawler/multitask/queued/fetcher.Fetch</td><td></td></tr><tr id="node96"><td>0</td><td>0.00%</td><td>87.13%</td><td>5.50s</td><td>43.96%</td><td>crawler/multitask/queued/engine.worker</td><td></td></tr><tr id="node95"><td>0</td><td>0.00%</td><td>87.13%</td><td>5.50s</td><td>43.96%</td><td>crawler/multitask/queued/engine.createWorker.func1</td><td></td></tr><tr id="node94"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.12s</td><td>0.96%</td><td>crawler/multitask/queued/engine.(*ConcurrentEngine).Run</td><td></td></tr><tr id="node93"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.25s</td><td>2.00%</td><td>compress/gzip.NewReader</td><td></td></tr><tr id="node92"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.25s</td><td>2.00%</td><td>compress/gzip.(*Reader).Reset</td><td></td></tr><tr id="node91"><td>0</td><td>0.00%</td><td>87.13%</td><td>3.23s</td><td>25.82%</td><td>compress/gzip.(*Reader).Read</td><td></td></tr><tr id="node90"><td>0</td><td>0.00%</td><td>87.13%</td><td>1.76s</td><td>14.07%</td><td>compress/flate.(*decompressor).nextBlock</td><td></td></tr><tr id="node89"><td>0</td><td>0.00%</td><td>87.13%</td><td>3.23s</td><td>25.82%</td><td>compress/flate.(*decompressor).Read</td><td></td></tr><tr id="node88"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.09s</td><td>0.72%</td><td>bytes.makeSlice</td><td></td></tr><tr id="node87"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.08s</td><td>0.64%</td><td>bytes.IndexByte</td><td></td></tr><tr id="node86"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.12s</td><td>0.96%</td><td>bytes.(*Buffer).grow</td><td></td></tr><tr id="node85"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.09s</td><td>0.72%</td><td>bufio.NewReader</td><td></td></tr><tr id="node84"><td>0</td><td>0.00%</td><td>87.13%</td><td>0.30s</td><td>2.40%</td><td>bufio.(*Writer).Flush</td><td></td></tr><tr id="node83"><td>0</td><td>0.00%</td><td>87.13%</td><td>2.08s</td><td>16.63%</td><td>bufio.(*Reader).Peek</td><td></td></tr></tbody>
+    </table>
+  </div>
+  
+<script>
+
+
+function initPanAndZoom(svg, clickHandler) {
+  'use strict';
+
+  
+  const IDLE = 0;
+  const MOUSEPAN = 1;
+  const TOUCHPAN = 2;
+  const TOUCHZOOM = 3;
+  let mode = IDLE;
+
+  
+  let currentScale = 1.0;
+  const initWidth = svg.viewBox.baseVal.width;
+  const initHeight = svg.viewBox.baseVal.height;
+
+  
+  let panLastX = 0;      
+  let panLastY = 0;      
+  let moved = false;     
+  let touchid = null;    
+
+  
+  let touchid2 = null;     
+  let initGap = 1.0;       
+  let initScale = 1.0;     
+  let centerPoint = null;  
+
+  
+  function toSvg(x, y) {
+    const p = svg.createSVGPoint();
+    p.x = x;
+    p.y = y;
+    let m = svg.getCTM();
+    if (m == null) m = svg.getScreenCTM(); 
+    return p.matrixTransform(m.inverse());
+  }
+
+  
+  
+  function rescale(s, u) {
+    
+    if (s < 0.2) s = 0.2;
+    if (s > 10.0) s = 10.0;
+
+    currentScale = s;
+
+    
+    
+    
+    const vb = svg.viewBox;
+    const w1 = vb.baseVal.width;
+    const w2 = initWidth / s;
+    const h1 = vb.baseVal.height;
+    const h2 = initHeight / s;
+    vb.baseVal.width = w2;
+    vb.baseVal.height = h2;
+
+    
+    
+    
+    
+    
+    
+    
+    vb.baseVal.x = u.x - (u.x - vb.baseVal.x) * (w2 / w1);
+    vb.baseVal.y = u.y - (u.y - vb.baseVal.y) * (h2 / h1);
+  }
+
+  function handleWheel(e) {
+    if (e.deltaY == 0) return;
+    
+    rescale(currentScale * (e.deltaY < 0 ? 1.1 : (1/1.1)),
+            toSvg(e.offsetX, e.offsetY));
+  }
+
+  function setMode(m) {
+    mode = m;
+    touchid = null;
+    touchid2 = null;
+  }
+
+  function panStart(x, y) {
+    moved = false;
+    panLastX = x;
+    panLastY = y;
+  }
+
+  function panMove(x, y) {
+    let dx = x - panLastX;
+    let dy = y - panLastY;
+    if (Math.abs(dx) <= 2 && Math.abs(dy) <= 2) return; 
+
+    moved = true;
+    panLastX = x;
+    panLastY = y;
+
+    
+    const swidth = svg.clientWidth || svg.parentNode.clientWidth;
+    const sheight = svg.clientHeight || svg.parentNode.clientHeight;
+
+    
+    dx *= (svg.viewBox.baseVal.width / swidth);
+    dy *= (svg.viewBox.baseVal.height / sheight);
+
+    svg.viewBox.baseVal.x -= dx;
+    svg.viewBox.baseVal.y -= dy;
+  }
+
+  function handleScanStart(e) {
+    if (e.button != 0) return; 
+    setMode(MOUSEPAN);
+    panStart(e.clientX, e.clientY);
+    e.preventDefault();
+    svg.addEventListener('mousemove', handleScanMove);
+  }
+
+  function handleScanMove(e) {
+    if (e.buttons == 0) {
+      
+      setMode(IDLE);
+      svg.removeEventListener('mousemove', handleScanMove);
+      return;
+    }
+    if (mode == MOUSEPAN) panMove(e.clientX, e.clientY);
+  }
+
+  function handleScanEnd(e) {
+    if (mode == MOUSEPAN) panMove(e.clientX, e.clientY);
+    setMode(IDLE);
+    svg.removeEventListener('mousemove', handleScanMove);
+    if (!moved) clickHandler(e.target);
+  }
+
+  
+  function findTouch(tlist, id) {
+    for (const t of tlist) {
+      if (t.identifier == id) return t;
+    }
+    return null;
+  }
+
+  
+  function touchGap(t1, t2) {
+    const dx = t1.clientX - t2.clientX;
+    const dy = t1.clientY - t2.clientY;
+    return Math.hypot(dx, dy);
+  }
+
+  function handleTouchStart(e) {
+    if (mode == IDLE && e.changedTouches.length == 1) {
+      
+      const t = e.changedTouches[0];
+      setMode(TOUCHPAN);
+      touchid = t.identifier;
+      panStart(t.clientX, t.clientY);
+      e.preventDefault();
+    } else if (mode == TOUCHPAN && e.touches.length == 2) {
+      
+      setMode(TOUCHZOOM);
+      const t1 = e.touches[0];
+      const t2 = e.touches[1];
+      touchid = t1.identifier;
+      touchid2 = t2.identifier;
+      initScale = currentScale;
+      initGap = touchGap(t1, t2);
+      centerPoint = toSvg((t1.clientX + t2.clientX) / 2,
+                          (t1.clientY + t2.clientY) / 2);
+      e.preventDefault();
+    }
+  }
+
+  function handleTouchMove(e) {
+    if (mode == TOUCHPAN) {
+      const t = findTouch(e.changedTouches, touchid);
+      if (t == null) return;
+      if (e.touches.length != 1) {
+        setMode(IDLE);
+        return;
+      }
+      panMove(t.clientX, t.clientY);
+      e.preventDefault();
+    } else if (mode == TOUCHZOOM) {
+      
+      const t1 = findTouch(e.touches, touchid);
+      const t2 = findTouch(e.touches, touchid2);
+      if (t1 == null || t2 == null) return;
+      const gap = touchGap(t1, t2);
+      rescale(initScale * gap / initGap, centerPoint);
+      e.preventDefault();
+    }
+  }
+
+  function handleTouchEnd(e) {
+    if (mode == TOUCHPAN) {
+      const t = findTouch(e.changedTouches, touchid);
+      if (t == null) return;
+      panMove(t.clientX, t.clientY);
+      setMode(IDLE);
+      e.preventDefault();
+      if (!moved) clickHandler(t.target);
+    } else if (mode == TOUCHZOOM) {
+      setMode(IDLE);
+      e.preventDefault();
+    }
+  }
+
+  svg.addEventListener('mousedown', handleScanStart);
+  svg.addEventListener('mouseup', handleScanEnd);
+  svg.addEventListener('touchstart', handleTouchStart);
+  svg.addEventListener('touchmove', handleTouchMove);
+  svg.addEventListener('touchend', handleTouchEnd);
+  svg.addEventListener('wheel', handleWheel, true);
+}
+
+function initMenus() {
+  'use strict';
+
+  let activeMenu = null;
+  let activeMenuHdr = null;
+
+  function cancelActiveMenu() {
+    if (activeMenu == null) return;
+    activeMenu.style.display = 'none';
+    activeMenu = null;
+    activeMenuHdr = null;
+  }
+
+  
+  for (const menu of document.getElementsByClassName('submenu')) {
+    const hdr = menu.parentElement;
+    if (hdr == null) return;
+    if (hdr.classList.contains('disabled')) return;
+    function showMenu(e) {
+      
+      
+      if (e.target.parentElement != hdr) return;
+      activeMenu = menu;
+      activeMenuHdr = hdr;
+      menu.style.display = 'block';
+    }
+    hdr.addEventListener('mousedown', showMenu);
+    hdr.addEventListener('touchstart', showMenu);
+  }
+
+  
+  for (const t of ['mousedown', 'touchstart']) {
+    document.addEventListener(t, (e) => {
+      
+      
+      if (activeMenuHdr != e.target.closest('.menu-item')) {
+        cancelActiveMenu();
+      }
+    }, { passive: true, capture: true });
+  }
+
+  
+  document.addEventListener('mouseup', (e) => {
+    if (activeMenu == e.target.closest('.submenu')) {
+      cancelActiveMenu();
+    }
+  }, { passive: true, capture: true });
+}
+
+function viewer(baseUrl, nodes) {
+  'use strict';
+
+  
+  const search = document.getElementById('search');
+  const graph0 = document.getElementById('graph0');
+  const svg = (graph0 == null ? null : graph0.parentElement);
+  const toptable = document.getElementById('toptable');
+
+  let regexpActive = false;
+  let selected = new Map();
+  let origFill = new Map();
+  let searchAlarm = null;
+  let buttonsEnabled = true;
+
+  function handleDetails(e) {
+    e.preventDefault();
+    const detailsText = document.getElementById('detailsbox');
+    if (detailsText != null) {
+      if (detailsText.style.display === 'block') {
+        detailsText.style.display = 'none';
+      } else {
+        detailsText.style.display = 'block';
+      }
+    }
+  }
+
+  function handleKey(e) {
+    if (e.keyCode != 13) return;
+    window.location.href =
+        updateUrl(new URL(window.location.href), 'f');
+    e.preventDefault();
+  }
+
+  function handleSearch() {
+    
+    if (searchAlarm != null) {
+      clearTimeout(searchAlarm);
+    }
+    searchAlarm = setTimeout(selectMatching, 300);
+
+    regexpActive = true;
+    updateButtons();
+  }
+
+  function selectMatching() {
+    searchAlarm = null;
+    let re = null;
+    if (search.value != '') {
+      try {
+        re = new RegExp(search.value);
+      } catch (e) {
+        
+        return;
+      }
+    }
+
+    function match(text) {
+      return re != null && re.test(text);
+    }
+
+    
+    selected.forEach(function(v, n) {
+      if (!match(nodes[n])) {
+        unselect(n, document.getElementById('node' + n));
+      }
+    })
+
+    
+    for (let n = 0; n < nodes.length; n++) {
+      if (!selected.has(n) && match(nodes[n])) {
+        select(n, document.getElementById('node' + n));
+      }
+    }
+
+    updateButtons();
+  }
+
+  function toggleSvgSelect(elem) {
+    
+    while (elem != null && elem.parentElement != graph0) {
+      elem = elem.parentElement;
+    }
+    if (!elem) return;
+
+    
+    regexpActive = false;
+
+    const n = nodeId(elem);
+    if (n < 0) return;
+    if (selected.has(n)) {
+      unselect(n, elem);
+    } else {
+      select(n, elem);
+    }
+    updateButtons();
+  }
+
+  function unselect(n, elem) {
+    if (elem == null) return;
+    selected.delete(n);
+    setBackground(elem, false);
+  }
+
+  function select(n, elem) {
+    if (elem == null) return;
+    selected.set(n, true);
+    setBackground(elem, true);
+  }
+
+  function nodeId(elem) {
+    const id = elem.id;
+    if (!id) return -1;
+    if (!id.startsWith('node')) return -1;
+    const n = parseInt(id.slice(4), 10);
+    if (isNaN(n)) return -1;
+    if (n < 0 || n >= nodes.length) return -1;
+    return n;
+  }
+
+  function setBackground(elem, set) {
+    
+    if (elem.nodeName == 'TR') {
+      elem.classList.toggle('hilite', set);
+      return;
+    }
+
+    
+    const p = findPolygon(elem);
+    if (p != null) {
+      if (set) {
+        origFill.set(p, p.style.fill);
+        p.style.fill = '#ccccff';
+      } else if (origFill.has(p)) {
+        p.style.fill = origFill.get(p);
+      }
+    }
+  }
+
+  function findPolygon(elem) {
+    if (elem.localName == 'polygon') return elem;
+    for (const c of elem.children) {
+      const p = findPolygon(c);
+      if (p != null) return p;
+    }
+    return null;
+  }
+
+  
+  function quotemeta(str) {
+    return str.replace(/([\\\.?+*\[\](){}|^$])/g, '\\$1');
+  }
+
+  function setSampleIndexLink(id) {
+    const elem = document.getElementById(id);
+    if (elem != null) {
+      setHrefParams(elem, function (params) {
+        params.set("si", id);
+      });
+    }
+  }
+
+  
+  
+  function makeSearchLinkDynamic(id) {
+    const elem = document.getElementById(id);
+    if (elem == null) return;
+
+    
+    
+    let param = 'f';
+    if (id == 'ignore') param = 'i';
+    if (id == 'hide') param = 'h';
+    if (id == 'show') param = 's';
+    if (id == 'show-from') param = 'sf';
+
+    
+    elem.addEventListener('mouseenter', updater);
+    elem.addEventListener('touchstart', updater);
+
+    function updater() {
+      
+      
+      let re = regexpActive
+        ? search.value
+        : Array.from(selected.keys()).map(key => quotemeta(nodes[key])).join('|');
+
+      setHrefParams(elem, function (params) {
+        if (re != '') {
+          
+          if (param != 'f' && param != 's' && param != 'sf' && params.has(param)) {
+            const old = params.get(param);
+            if (old != '') {
+              re += '|' + old;
+            }
+          }
+          params.set(param, re);
+        } else {
+          params.delete(param);
+        }
+      });
+    }
+  }
+
+  function setHrefParams(elem, paramSetter) {
+    let url = new URL(elem.href);
+    url.hash = '';
+
+    
+    const params = url.searchParams;
+    for (const p of new URLSearchParams(window.location.search)) {
+      params.set(p[0], p[1]);
+    }
+
+    
+    paramSetter(params);
+
+    elem.href = url.toString();
+  }
+
+  function handleTopClick(e) {
+    
+    let elem = e.target;
+    while (elem != null && elem.nodeName != 'TR') {
+      elem = elem.parentElement;
+    }
+    if (elem == null || elem.children.length < 6) return;
+
+    e.preventDefault();
+    const tr = elem;
+    const td = elem.children[5];
+    if (td.nodeName != 'TD') return;
+    const name = td.innerText;
+    const index = nodes.indexOf(name);
+    if (index < 0) return;
+
+    
+    regexpActive = false;
+
+    if (selected.has(index)) {
+      unselect(index, elem);
+    } else {
+      select(index, elem);
+    }
+    updateButtons();
+  }
+
+  function updateButtons() {
+    const enable = (search.value != '' || selected.size != 0);
+    if (buttonsEnabled == enable) return;
+    buttonsEnabled = enable;
+    for (const id of ['focus', 'ignore', 'hide', 'show', 'show-from']) {
+      const link = document.getElementById(id);
+      if (link != null) {
+        link.classList.toggle('disabled', !enable);
+      }
+    }
+  }
+
+  
+  updateButtons();
+
+  
+  initMenus();
+  if (svg != null) {
+    initPanAndZoom(svg, toggleSvgSelect);
+  }
+  if (toptable != null) {
+    toptable.addEventListener('mousedown', handleTopClick);
+    toptable.addEventListener('touchstart', handleTopClick);
+  }
+
+  const ids = ['topbtn', 'graphbtn', 'peek', 'list', 'disasm',
+               'focus', 'ignore', 'hide', 'show', 'show-from'];
+  ids.forEach(makeSearchLinkDynamic);
+
+  const sampleIDs = ['samples', 'cpu', ];
+  sampleIDs.forEach(setSampleIndexLink);
+
+  
+  function addAction(id, action) {
+    const btn = document.getElementById(id);
+    if (btn != null) {
+      btn.addEventListener('click', action);
+      btn.addEventListener('touchstart', action);
+    }
+  }
+
+  addAction('details', handleDetails);
+
+  search.addEventListener('input', handleSearch);
+  search.addEventListener('keydown', handleKey);
+
+  
+  const main = document.getElementById('bodycontainer');
+  if (main) {
+    main.focus();
+  }
+}
+</script>
+
+  <script>
+    function makeTopTable(total, entries) {
+      const rows = document.getElementById('rows');
+      if (rows == null) return;
+
+      
+      for (let i = 0; i < entries.length; i++) {
+        entries[i].Id = 'node' + i;
+      }
+
+      
+      let currentColumn = '';
+      let descending = false;
+      sortBy('Flat');
+
+      function sortBy(column) {
+        
+        if (column == currentColumn) {
+          descending = !descending; 
+        } else {
+          currentColumn = column;
+          descending = (column != 'Name');
+        }
+
+        
+        function cmp(a, b) {
+          const av = a[currentColumn];
+          const bv = b[currentColumn];
+          if (av < bv) return -1;
+          if (av > bv) return +1;
+          return 0;
+        }
+        entries.sort(cmp);
+        if (descending) entries.reverse();
+
+        function addCell(tr, val) {
+          const td = document.createElement('td');
+          td.textContent = val;
+          tr.appendChild(td);
+        }
+
+        function percent(v) {
+          return (v * 100.0 / total).toFixed(2) + '%';
+        }
+
+        
+        const fragment = document.createDocumentFragment();
+        let sum = 0;
+        for (const row of entries) {
+          const tr = document.createElement('tr');
+          tr.id = row.Id;
+          sum += row.Flat;
+          addCell(tr, row.FlatFormat);
+          addCell(tr, percent(row.Flat));
+          addCell(tr, percent(sum));
+          addCell(tr, row.CumFormat);
+          addCell(tr, percent(row.Cum));
+          addCell(tr, row.Name);
+          addCell(tr, row.InlineLabel);
+          fragment.appendChild(tr);
+        }
+
+        rows.textContent = ''; 
+        rows.appendChild(fragment);
+      }
+
+      
+      function bindSort(id, column) {
+        const hdr = document.getElementById(id);
+        if (hdr == null) return;
+        const fn = function() { sortBy(column) };
+        hdr.addEventListener('click', fn);
+        hdr.addEventListener('touch', fn);
+      }
+      bindSort('flathdr1', 'Flat');
+      bindSort('flathdr2', 'Flat');
+      bindSort('cumhdr1', 'Cum');
+      bindSort('cumhdr2', 'Cum');
+      bindSort('namehdr', 'Name');
+    }
+
+    viewer(new URL(window.location.href), ["runtime.cgocall","compress/flate.(*decompressor).huffSym","bufio.(*Reader).ReadByte","vendor/golang.org/x/text/encoding/unicode.utf8Decoder.Transform","compress/flate.(*decompressor).huffmanBlock","runtime.memmove","runtime.scanobject","runtime.findObject","compress/flate.(*dictDecoder).tryWriteCopy","runtime.step","runtime.(*guintptr).cas","runtime.pcvalue","runtime.stdcall1","regexp.(*machine).step","compress/flate.(*decompressor).moreBits","runtime.greyobject","runtime.stdcall6","compress/flate.(*dictDecoder).writeByte","runtime.spanOf","runtime.lock","runtime.memclrNoHeapPointers","runtime.scanblock","regexp.(*machine).add","runtime.gentraceback","runtime.mallocgc","indexbytebody","runtime.gcWriteBarrier","runtime.markBits.isMarked","runtime.getStackMap","bytes.Index","runtime.selectgo","regexp.(*machine).match","runtime.scanframeworker","vendor/golang.org/x/text/transform.(*Reader).Read","bufio.(*Reader).fill","runtime.(*mcentral).cacheSpan","runtime.mcall","runtime.schedule","internal/poll.(*ioSrv).ExecIO","net/http.(*persistConn).readLoop","runtime.gcDrainN","runtime.markroot","runtime.netpoll","runtime.ready","runtime.scang","runtime.scanstack","runtime.scanstack.func1","runtime.startm","runtime.wbBufFlush1","bufio.(*Reader).Read","bufio.(*Reader).ReadSlice","bufio.NewReaderSize","bytes.(*Buffer).ReadFrom","compress/gzip.(*Reader).readHeader","internal/poll.(*FD).ConnectEx","internal/poll.(*FD).SetsockoptInt","net.(*Dialer).DialContext","net.(*netFD).connect","net/http.(*Request).write","net/http.(*Transport).dialConn","net/http.(*Transport).getConn","net/http.(*persistConn).Read","net/http.NewRequest","regexp.(*Regexp).FindSubmatch","regexp.(*machine).alloc","runtime.(*mcache).refill","runtime.(*mcentral).grow","runtime.(*mheap).alloc.func1","runtime.findrunnable","runtime.funcspdelta","runtime.gcDrain","runtime.growslice","runtime.makeslice","runtime.newobject","runtime.notewakeup","runtime.park_m","runtime.runqgrab","runtime.systemstack","runtime.wbBufFlush","syscall.SetsockoptInt","syscall.Syscall9","syscall.WSARecv","syscall.bind","bufio.(*Reader).Peek","bufio.(*Writer).Flush","bufio.NewReader","bytes.(*Buffer).grow","bytes.IndexByte","bytes.makeSlice","compress/flate.(*decompressor).Read","compress/flate.(*decompressor).nextBlock","compress/gzip.(*Reader).Read","compress/gzip.(*Reader).Reset","compress/gzip.NewReader","crawler/multitask/queued/engine.(*ConcurrentEngine).Run","crawler/multitask/queued/engine.createWorker.func1","crawler/multitask/queued/engine.worker","crawler/multitask/queued/fetcher.Fetch","crawler/multitask/queued/fetcher.determineEncoding","crawler/multitask/queued/scheduler.(*QueuedScheduler).Run.func1","crawler/multitask/queued/zhenai/parser.ParseCity.func1","crawler/multitask/queued/zhenai/parser.ParseProfile","crawler/multitask/queued/zhenai/parser.extractString","internal/poll.(*FD).Close","internal/poll.(*FD).ConnectEx.func1","internal/poll.(*FD).Init","internal/poll.(*FD).Read","internal/poll.(*FD).Read.func1","internal/poll.(*FD).Write","internal/poll.(*FD).Write.func1","internal/poll.(*FD).decref","internal/poll.(*FD).destroy","io.ReadAtLeast","io.ReadFull","io/ioutil.ReadAll","io/ioutil.readAll","log.(*Logger).Output","log.Printf","main.main","net.(*Resolver).internetAddrList","net.(*Resolver).lookupIP.func1","net.(*Resolver).lookupIP.func2","net.(*Resolver).resolveAddrList","net.(*conn).Close","net.(*conn).Read","net.(*conn).Write","net.(*netFD).Close","net.(*netFD).Read","net.(*netFD).Write","net.(*netFD).dial","net.(*netFD).init","net.(*sysDialer).dialSerial","net.(*sysDialer).dialSingle","net.(*sysDialer).dialTCP","net.(*sysDialer).doDialTCP","net.internetSocket","net.socket","net/http.(*Client).Do","net/http.(*Client).do","net/http.(*Client).send","net/http.(*Transport).RoundTrip","net/http.(*Transport).dial","net/http.(*Transport).getConn.func4","net/http.(*Transport).roundTrip","net/http.(*body).Read","net/http.(*body).readLocked","net/http.(*bodyEOFSignal).Read","net/http.(*gzipReader).Read","net/http.(*persistConn).close","net/http.(*persistConn).closeLocked","net/http.(*persistConn).readLoop.func1","net/http.(*persistConn).readResponse","net/http.(*persistConn).roundTrip","net/http.(*persistConn).writeLoop","net/http.ReadResponse","net/http.persistConnWriter.Write","net/http.send","net/http/internal.(*chunkedReader).Read","net/http/internal.(*chunkedReader).beginChunk","net/http/internal.readChunkLine","os.(*File).Write","os.(*File).write","regexp.(*Regexp).doExecute","regexp.(*inputBytes).index","runtime.(*mcache).nextFree","runtime.(*mheap).alloc","runtime.(*mheap).alloc_m","runtime.copystack","runtime.gcAssistAlloc","runtime.gcAssistAlloc.func1","runtime.gcAssistAlloc1","runtime.gcBgMarkWorker","runtime.gcBgMarkWorker.func2","runtime.goready.func1","runtime.main","runtime.markroot.func1","runtime.mstart","runtime.newstack","runtime.pcdatavalue","runtime.runqsteal","runtime.semawakeup","runtime.wakep","runtime.wbBufFlush.func1","syscall.Bind","syscall.Closesocket","syscall.ConnectEx","syscall.GetAddrInfoW","syscall.Getsockname","syscall.Setsockopt","syscall.Syscall","syscall.Syscall6","syscall.WSASend","syscall.Write","syscall.WriteFile","syscall.connectEx","vendor/golang.org/x/net/html/charset.DetermineEncoding","vendor/golang.org/x/net/html/charset.prescan"]);
+    makeTopTable( 12510000000 , [{"Name":"runtime.cgocall","InlineLabel":"","Flat":3780000000,"Cum":3810000000,"FlatFormat":"3.78s","CumFormat":"3.81s"},{"Name":"compress/flate.(*decompressor).huffSym","InlineLabel":"","Flat":1100000000,"Cum":1740000000,"FlatFormat":"1.10s","CumFormat":"1.74s"},{"Name":"bufio.(*Reader).ReadByte","InlineLabel":"","Flat":580000000,"Cum":770000000,"FlatFormat":"0.58s","CumFormat":"0.77s"},{"Name":"vendor/golang.org/x/text/encoding/unicode.utf8Decoder.Transform","InlineLabel":"","Flat":480000000,"Cum":500000000,"FlatFormat":"0.48s","CumFormat":"0.50s"},{"Name":"compress/flate.(*decompressor).huffmanBlock","InlineLabel":"","Flat":470000000,"Cum":3140000000,"FlatFormat":"0.47s","CumFormat":"3.14s"},{"Name":"runtime.memmove","InlineLabel":"","Flat":370000000,"Cum":370000000,"FlatFormat":"0.37s","CumFormat":"0.37s"},{"Name":"runtime.scanobject","InlineLabel":"","Flat":340000000,"Cum":830000000,"FlatFormat":"0.34s","CumFormat":"0.83s"},{"Name":"runtime.findObject","InlineLabel":"","Flat":270000000,"Cum":370000000,"FlatFormat":"0.27s","CumFormat":"0.37s"},{"Name":"compress/flate.(*dictDecoder).tryWriteCopy","InlineLabel":"","Flat":230000000,"Cum":480000000,"FlatFormat":"0.23s","CumFormat":"0.48s"},{"Name":"runtime.step","InlineLabel":"","Flat":210000000,"Cum":230000000,"FlatFormat":"0.21s","CumFormat":"0.23s"},{"Name":"runtime.(*guintptr).cas","InlineLabel":"","Flat":200000000,"Cum":200000000,"FlatFormat":"0.20s","CumFormat":"0.20s"},{"Name":"runtime.pcvalue","InlineLabel":"","Flat":190000000,"Cum":430000000,"FlatFormat":"0.19s","CumFormat":"0.43s"},{"Name":"runtime.stdcall1","InlineLabel":"","Flat":190000000,"Cum":190000000,"FlatFormat":"0.19s","CumFormat":"0.19s"},{"Name":"regexp.(*machine).step","InlineLabel":"","Flat":160000000,"Cum":340000000,"FlatFormat":"0.16s","CumFormat":"0.34s"},{"Name":"compress/flate.(*decompressor).moreBits","InlineLabel":"","Flat":150000000,"Cum":290000000,"FlatFormat":"0.15s","CumFormat":"0.29s"},{"Name":"runtime.greyobject","InlineLabel":"","Flat":140000000,"Cum":220000000,"FlatFormat":"0.14s","CumFormat":"0.22s"},{"Name":"runtime.stdcall6","InlineLabel":"","Flat":130000000,"Cum":130000000,"FlatFormat":"0.13s","CumFormat":"0.13s"},{"Name":"compress/flate.(*dictDecoder).writeByte","InlineLabel":"","Flat":110000000,"Cum":110000000,"FlatFormat":"0.11s","CumFormat":"0.11s"},{"Name":"runtime.spanOf","InlineLabel":"","Flat":110000000,"Cum":110000000,"FlatFormat":"0.11s","CumFormat":"0.11s"},{"Name":"runtime.lock","InlineLabel":"","Flat":100000000,"Cum":140000000,"FlatFormat":"0.10s","CumFormat":"0.14s"},{"Name":"runtime.memclrNoHeapPointers","InlineLabel":"","Flat":90000000,"Cum":90000000,"FlatFormat":"0.09s","CumFormat":"0.09s"},{"Name":"runtime.scanblock","InlineLabel":"","Flat":90000000,"Cum":140000000,"FlatFormat":"0.09s","CumFormat":"0.14s"},{"Name":"regexp.(*machine).add","InlineLabel":"","Flat":80000000,"Cum":290000000,"FlatFormat":"0.08s","CumFormat":"0.29s"},{"Name":"runtime.gentraceback","InlineLabel":"","Flat":80000000,"Cum":800000000,"FlatFormat":"0.08s","CumFormat":"0.80s"},{"Name":"runtime.mallocgc","InlineLabel":"","Flat":80000000,"Cum":780000000,"FlatFormat":"0.08s","CumFormat":"0.78s"},{"Name":"indexbytebody","InlineLabel":"","Flat":70000000,"Cum":70000000,"FlatFormat":"0.07s","CumFormat":"0.07s"},{"Name":"runtime.gcWriteBarrier","InlineLabel":"","Flat":70000000,"Cum":230000000,"FlatFormat":"0.07s","CumFormat":"0.23s"},{"Name":"runtime.markBits.isMarked","InlineLabel":"","Flat":70000000,"Cum":70000000,"FlatFormat":"0.07s","CumFormat":"0.07s"},{"Name":"runtime.getStackMap","InlineLabel":"","Flat":60000000,"Cum":330000000,"FlatFormat":"0.06s","CumFormat":"0.33s"},{"Name":"bytes.Index","InlineLabel":"","Flat":50000000,"Cum":170000000,"FlatFormat":"0.05s","CumFormat":"0.17s"},{"Name":"runtime.selectgo","InlineLabel":"","Flat":50000000,"Cum":120000000,"FlatFormat":"0.05s","CumFormat":"0.12s"},{"Name":"regexp.(*machine).match","InlineLabel":"","Flat":40000000,"Cum":720000000,"FlatFormat":"0.04s","CumFormat":"0.72s"},{"Name":"runtime.scanframeworker","InlineLabel":"","Flat":40000000,"Cum":440000000,"FlatFormat":"0.04s","CumFormat":"0.44s"},{"Name":"vendor/golang.org/x/text/transform.(*Reader).Read","InlineLabel":"","Flat":40000000,"Cum":2030000000,"FlatFormat":"0.04s","CumFormat":"2.03s"},{"Name":"bufio.(*Reader).fill","InlineLabel":"","Flat":30000000,"Cum":2190000000,"FlatFormat":"0.03s","CumFormat":"2.19s"},{"Name":"runtime.(*mcentral).cacheSpan","InlineLabel":"","Flat":30000000,"Cum":120000000,"FlatFormat":"0.03s","CumFormat":"0.12s"},{"Name":"runtime.mcall","InlineLabel":"","Flat":30000000,"Cum":600000000,"FlatFormat":"0.03s","CumFormat":"0.60s"},{"Name":"runtime.schedule","InlineLabel":"","Flat":30000000,"Cum":550000000,"FlatFormat":"0.03s","CumFormat":"0.55s"},{"Name":"internal/poll.(*ioSrv).ExecIO","InlineLabel":"","Flat":20000000,"Cum":1070000000,"FlatFormat":"0.02s","CumFormat":"1.07s"},{"Name":"net/http.(*persistConn).readLoop","InlineLabel":"","Flat":20000000,"Cum":540000000,"FlatFormat":"0.02s","CumFormat":"0.54s"},{"Name":"runtime.gcDrainN","InlineLabel":"","Flat":20000000,"Cum":420000000,"FlatFormat":"0.02s","CumFormat":"0.42s"},{"Name":"runtime.markroot","InlineLabel":"","Flat":20000000,"Cum":920000000,"FlatFormat":"0.02s","CumFormat":"0.92s"},{"Name":"runtime.netpoll","InlineLabel":"","Flat":20000000,"Cum":170000000,"FlatFormat":"0.02s","CumFormat":"0.17s"},{"Name":"runtime.ready","InlineLabel":"","Flat":20000000,"Cum":90000000,"FlatFormat":"0.02s","CumFormat":"0.09s"},{"Name":"runtime.scang","InlineLabel":"","Flat":20000000,"Cum":870000000,"FlatFormat":"0.02s","CumFormat":"0.87s"},{"Name":"runtime.scanstack","InlineLabel":"","Flat":20000000,"Cum":840000000,"FlatFormat":"0.02s","CumFormat":"0.84s"},{"Name":"runtime.scanstack.func1","InlineLabel":"","Flat":20000000,"Cum":460000000,"FlatFormat":"0.02s","CumFormat":"0.46s"},{"Name":"runtime.startm","InlineLabel":"","Flat":20000000,"Cum":190000000,"FlatFormat":"0.02s","CumFormat":"0.19s"},{"Name":"runtime.wbBufFlush1","InlineLabel":"","Flat":20000000,"Cum":170000000,"FlatFormat":"0.02s","CumFormat":"0.17s"},{"Name":"bufio.(*Reader).Read","InlineLabel":"","Flat":10000000,"Cum":1740000000,"FlatFormat":"0.01s","CumFormat":"1.74s"},{"Name":"bufio.(*Reader).ReadSlice","InlineLabel":"","Flat":10000000,"Cum":120000000,"FlatFormat":"0.01s","CumFormat":"0.12s"},{"Name":"bufio.NewReaderSize","InlineLabel":"","Flat":10000000,"Cum":90000000,"FlatFormat":"0.01s","CumFormat":"0.09s"},{"Name":"bytes.(*Buffer).ReadFrom","InlineLabel":"","Flat":10000000,"Cum":2160000000,"FlatFormat":"0.01s","CumFormat":"2.16s"},{"Name":"compress/gzip.(*Reader).readHeader","InlineLabel":"","Flat":10000000,"Cum":250000000,"FlatFormat":"0.01s","CumFormat":"0.25s"},{"Name":"internal/poll.(*FD).ConnectEx","InlineLabel":"","Flat":10000000,"Cum":430000000,"FlatFormat":"0.01s","CumFormat":"0.43s"},{"Name":"internal/poll.(*FD).SetsockoptInt","InlineLabel":"","Flat":10000000,"Cum":110000000,"FlatFormat":"0.01s","CumFormat":"0.11s"},{"Name":"net.(*Dialer).DialContext","InlineLabel":"","Flat":10000000,"Cum":1290000000,"FlatFormat":"0.01s","CumFormat":"1.29s"},{"Name":"net.(*netFD).connect","InlineLabel":"","Flat":10000000,"Cum":810000000,"FlatFormat":"0.01s","CumFormat":"0.81s"},{"Name":"net/http.(*Request).write","InlineLabel":"","Flat":10000000,"Cum":110000000,"FlatFormat":"0.01s","CumFormat":"0.11s"},{"Name":"net/http.(*Transport).dialConn","InlineLabel":"","Flat":10000000,"Cum":1350000000,"FlatFormat":"0.01s","CumFormat":"1.35s"},{"Name":"net/http.(*Transport).getConn","InlineLabel":"","Flat":10000000,"Cum":70000000,"FlatFormat":"0.01s","CumFormat":"0.07s"},{"Name":"net/http.(*persistConn).Read","InlineLabel":"","Flat":10000000,"Cum":400000000,"FlatFormat":"0.01s","CumFormat":"0.40s"},{"Name":"net/http.NewRequest","InlineLabel":"","Flat":10000000,"Cum":70000000,"FlatFormat":"0.01s","CumFormat":"0.07s"},{"Name":"regexp.(*Regexp).FindSubmatch","InlineLabel":"","Flat":10000000,"Cum":790000000,"FlatFormat":"0.01s","CumFormat":"0.79s"},{"Name":"regexp.(*machine).alloc","InlineLabel":"","Flat":10000000,"Cum":70000000,"FlatFormat":"0.01s","CumFormat":"0.07s"},{"Name":"runtime.(*mcache).refill","InlineLabel":"","Flat":10000000,"Cum":130000000,"FlatFormat":"0.01s","CumFormat":"0.13s"},{"Name":"runtime.(*mcentral).grow","InlineLabel":"","Flat":10000000,"Cum":90000000,"FlatFormat":"0.01s","CumFormat":"0.09s"},{"Name":"runtime.(*mheap).alloc.func1","InlineLabel":"","Flat":10000000,"Cum":80000000,"FlatFormat":"0.01s","CumFormat":"0.08s"},{"Name":"runtime.findrunnable","InlineLabel":"","Flat":10000000,"Cum":410000000,"FlatFormat":"0.01s","CumFormat":"0.41s"},{"Name":"runtime.funcspdelta","InlineLabel":"","Flat":10000000,"Cum":180000000,"FlatFormat":"0.01s","CumFormat":"0.18s"},{"Name":"runtime.gcDrain","InlineLabel":"","Flat":10000000,"Cum":1420000000,"FlatFormat":"0.01s","CumFormat":"1.42s"},{"Name":"runtime.growslice","InlineLabel":"","Flat":10000000,"Cum":80000000,"FlatFormat":"0.01s","CumFormat":"0.08s"},{"Name":"runtime.makeslice","InlineLabel":"","Flat":10000000,"Cum":250000000,"FlatFormat":"0.01s","CumFormat":"0.25s"},{"Name":"runtime.newobject","InlineLabel":"","Flat":10000000,"Cum":330000000,"FlatFormat":"0.01s","CumFormat":"0.33s"},{"Name":"runtime.notewakeup","InlineLabel":"","Flat":10000000,"Cum":200000000,"FlatFormat":"0.01s","CumFormat":"0.20s"},{"Name":"runtime.park_m","InlineLabel":"","Flat":10000000,"Cum":480000000,"FlatFormat":"0.01s","CumFormat":"0.48s"},{"Name":"runtime.runqgrab","InlineLabel":"","Flat":10000000,"Cum":200000000,"FlatFormat":"0.01s","CumFormat":"0.20s"},{"Name":"runtime.systemstack","InlineLabel":"","Flat":10000000,"Cum":2380000000,"FlatFormat":"0.01s","CumFormat":"2.38s"},{"Name":"runtime.wbBufFlush","InlineLabel":"","Flat":10000000,"Cum":170000000,"FlatFormat":"0.01s","CumFormat":"0.17s"},{"Name":"syscall.SetsockoptInt","InlineLabel":"","Flat":10000000,"Cum":130000000,"FlatFormat":"0.01s","CumFormat":"0.13s"},{"Name":"syscall.Syscall9","InlineLabel":"","Flat":10000000,"Cum":1000000000,"FlatFormat":"0.01s","CumFormat":"1s"},{"Name":"syscall.WSARecv","InlineLabel":"","Flat":10000000,"Cum":310000000,"FlatFormat":"0.01s","CumFormat":"0.31s"},{"Name":"syscall.bind","InlineLabel":"","Flat":10000000,"Cum":190000000,"FlatFormat":"0.01s","CumFormat":"0.19s"},{"Name":"bufio.(*Reader).Peek","InlineLabel":"","Flat":0,"Cum":2080000000,"FlatFormat":"0","CumFormat":"2.08s"},{"Name":"bufio.(*Writer).Flush","InlineLabel":"","Flat":0,"Cum":300000000,"FlatFormat":"0","CumFormat":"0.30s"},{"Name":"bufio.NewReader","InlineLabel":"","Flat":0,"Cum":90000000,"FlatFormat":"0","CumFormat":"0.09s"},{"Name":"bytes.(*Buffer).grow","InlineLabel":"","Flat":0,"Cum":120000000,"FlatFormat":"0","CumFormat":"0.12s"},{"Name":"bytes.IndexByte","InlineLabel":"","Flat":0,"Cum":80000000,"FlatFormat":"0","CumFormat":"0.08s"},{"Name":"bytes.makeSlice","InlineLabel":"","Flat":0,"Cum":90000000,"FlatFormat":"0","CumFormat":"0.09s"},{"Name":"compress/flate.(*decompressor).Read","InlineLabel":"","Flat":0,"Cum":3230000000,"FlatFormat":"0","CumFormat":"3.23s"},{"Name":"compress/flate.(*decompressor).nextBlock","InlineLabel":"","Flat":0,"Cum":1760000000,"FlatFormat":"0","CumFormat":"1.76s"},{"Name":"compress/gzip.(*Reader).Read","InlineLabel":"","Flat":0,"Cum":3230000000,"FlatFormat":"0","CumFormat":"3.23s"},{"Name":"compress/gzip.(*Reader).Reset","InlineLabel":"","Flat":0,"Cum":250000000,"FlatFormat":"0","CumFormat":"0.25s"},{"Name":"compress/gzip.NewReader","InlineLabel":"","Flat":0,"Cum":250000000,"FlatFormat":"0","CumFormat":"0.25s"},{"Name":"crawler/multitask/queued/engine.(*ConcurrentEngine).Run","InlineLabel":"","Flat":0,"Cum":120000000,"FlatFormat":"0","CumFormat":"0.12s"},{"Name":"crawler/multitask/queued/engine.createWorker.func1","InlineLabel":"","Flat":0,"Cum":5500000000,"FlatFormat":"0","CumFormat":"5.50s"},{"Name":"crawler/multitask/queued/engine.worker","InlineLabel":"","Flat":0,"Cum":5500000000,"FlatFormat":"0","CumFormat":"5.50s"},{"Name":"crawler/multitask/queued/fetcher.Fetch","InlineLabel":"","Flat":0,"Cum":4620000000,"FlatFormat":"0","CumFormat":"4.62s"},{"Name":"crawler/multitask/queued/fetcher.determineEncoding","InlineLabel":"","Flat":0,"Cum":2110000000,"FlatFormat":"0","CumFormat":"2.11s"},{"Name":"crawler/multitask/queued/scheduler.(*QueuedScheduler).Run.func1","InlineLabel":"","Flat":0,"Cum":80000000,"FlatFormat":"0","CumFormat":"0.08s"},{"Name":"crawler/multitask/queued/zhenai/parser.ParseCity.func1","InlineLabel":"","Flat":0,"Cum":810000000,"FlatFormat":"0","CumFormat":"0.81s"},{"Name":"crawler/multitask/queued/zhenai/parser.ParseProfile","InlineLabel":"","Flat":0,"Cum":810000000,"FlatFormat":"0","CumFormat":"0.81s"},{"Name":"crawler/multitask/queued/zhenai/parser.extractString","InlineLabel":"","Flat":0,"Cum":800000000,"FlatFormat":"0","CumFormat":"0.80s"},{"Name":"internal/poll.(*FD).Close","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"internal/poll.(*FD).ConnectEx.func1","InlineLabel":"","Flat":0,"Cum":410000000,"FlatFormat":"0","CumFormat":"0.41s"},{"Name":"internal/poll.(*FD).Init","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"internal/poll.(*FD).Read","InlineLabel":"","Flat":0,"Cum":390000000,"FlatFormat":"0","CumFormat":"0.39s"},{"Name":"internal/poll.(*FD).Read.func1","InlineLabel":"","Flat":0,"Cum":310000000,"FlatFormat":"0","CumFormat":"0.31s"},{"Name":"internal/poll.(*FD).Write","InlineLabel":"","Flat":0,"Cum":370000000,"FlatFormat":"0","CumFormat":"0.37s"},{"Name":"internal/poll.(*FD).Write.func1","InlineLabel":"","Flat":0,"Cum":290000000,"FlatFormat":"0","CumFormat":"0.29s"},{"Name":"internal/poll.(*FD).decref","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"internal/poll.(*FD).destroy","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"io.ReadAtLeast","InlineLabel":"","Flat":0,"Cum":180000000,"FlatFormat":"0","CumFormat":"0.18s"},{"Name":"io.ReadFull","InlineLabel":"","Flat":0,"Cum":180000000,"FlatFormat":"0","CumFormat":"0.18s"},{"Name":"io/ioutil.ReadAll","InlineLabel":"","Flat":0,"Cum":2160000000,"FlatFormat":"0","CumFormat":"2.16s"},{"Name":"io/ioutil.readAll","InlineLabel":"","Flat":0,"Cum":2160000000,"FlatFormat":"0","CumFormat":"2.16s"},{"Name":"log.(*Logger).Output","InlineLabel":"","Flat":0,"Cum":100000000,"FlatFormat":"0","CumFormat":"0.10s"},{"Name":"log.Printf","InlineLabel":"","Flat":0,"Cum":160000000,"FlatFormat":"0","CumFormat":"0.16s"},{"Name":"main.main","InlineLabel":"","Flat":0,"Cum":120000000,"FlatFormat":"0","CumFormat":"0.12s"},{"Name":"net.(*Resolver).internetAddrList","InlineLabel":"","Flat":0,"Cum":80000000,"FlatFormat":"0","CumFormat":"0.08s"},{"Name":"net.(*Resolver).lookupIP.func1","InlineLabel":"","Flat":0,"Cum":2120000000,"FlatFormat":"0","CumFormat":"2.12s"},{"Name":"net.(*Resolver).lookupIP.func2","InlineLabel":"","Flat":0,"Cum":2120000000,"FlatFormat":"0","CumFormat":"2.12s"},{"Name":"net.(*Resolver).resolveAddrList","InlineLabel":"","Flat":0,"Cum":80000000,"FlatFormat":"0","CumFormat":"0.08s"},{"Name":"net.(*conn).Close","InlineLabel":"","Flat":0,"Cum":200000000,"FlatFormat":"0","CumFormat":"0.20s"},{"Name":"net.(*conn).Read","InlineLabel":"","Flat":0,"Cum":390000000,"FlatFormat":"0","CumFormat":"0.39s"},{"Name":"net.(*conn).Write","InlineLabel":"","Flat":0,"Cum":300000000,"FlatFormat":"0","CumFormat":"0.30s"},{"Name":"net.(*netFD).Close","InlineLabel":"","Flat":0,"Cum":240000000,"FlatFormat":"0","CumFormat":"0.24s"},{"Name":"net.(*netFD).Read","InlineLabel":"","Flat":0,"Cum":390000000,"FlatFormat":"0","CumFormat":"0.39s"},{"Name":"net.(*netFD).Write","InlineLabel":"","Flat":0,"Cum":300000000,"FlatFormat":"0","CumFormat":"0.30s"},{"Name":"net.(*netFD).dial","InlineLabel":"","Flat":0,"Cum":930000000,"FlatFormat":"0","CumFormat":"0.93s"},{"Name":"net.(*netFD).init","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"net.(*sysDialer).dialSerial","InlineLabel":"","Flat":0,"Cum":1120000000,"FlatFormat":"0","CumFormat":"1.12s"},{"Name":"net.(*sysDialer).dialSingle","InlineLabel":"","Flat":0,"Cum":1120000000,"FlatFormat":"0","CumFormat":"1.12s"},{"Name":"net.(*sysDialer).dialTCP","InlineLabel":"","Flat":0,"Cum":1120000000,"FlatFormat":"0","CumFormat":"1.12s"},{"Name":"net.(*sysDialer).doDialTCP","InlineLabel":"","Flat":0,"Cum":1120000000,"FlatFormat":"0","CumFormat":"1.12s"},{"Name":"net.internetSocket","InlineLabel":"","Flat":0,"Cum":1060000000,"FlatFormat":"0","CumFormat":"1.06s"},{"Name":"net.socket","InlineLabel":"","Flat":0,"Cum":1060000000,"FlatFormat":"0","CumFormat":"1.06s"},{"Name":"net/http.(*Client).Do","InlineLabel":"","Flat":0,"Cum":180000000,"FlatFormat":"0","CumFormat":"0.18s"},{"Name":"net/http.(*Client).do","InlineLabel":"","Flat":0,"Cum":180000000,"FlatFormat":"0","CumFormat":"0.18s"},{"Name":"net/http.(*Client).send","InlineLabel":"","Flat":0,"Cum":170000000,"FlatFormat":"0","CumFormat":"0.17s"},{"Name":"net/http.(*Transport).RoundTrip","InlineLabel":"","Flat":0,"Cum":170000000,"FlatFormat":"0","CumFormat":"0.17s"},{"Name":"net/http.(*Transport).dial","InlineLabel":"","Flat":0,"Cum":1290000000,"FlatFormat":"0","CumFormat":"1.29s"},{"Name":"net/http.(*Transport).getConn.func4","InlineLabel":"","Flat":0,"Cum":1350000000,"FlatFormat":"0","CumFormat":"1.35s"},{"Name":"net/http.(*Transport).roundTrip","InlineLabel":"","Flat":0,"Cum":170000000,"FlatFormat":"0","CumFormat":"0.17s"},{"Name":"net/http.(*body).Read","InlineLabel":"","Flat":0,"Cum":360000000,"FlatFormat":"0","CumFormat":"0.36s"},{"Name":"net/http.(*body).readLocked","InlineLabel":"","Flat":0,"Cum":360000000,"FlatFormat":"0","CumFormat":"0.36s"},{"Name":"net/http.(*bodyEOFSignal).Read","InlineLabel":"","Flat":0,"Cum":360000000,"FlatFormat":"0","CumFormat":"0.36s"},{"Name":"net/http.(*gzipReader).Read","InlineLabel":"","Flat":0,"Cum":3480000000,"FlatFormat":"0","CumFormat":"3.48s"},{"Name":"net/http.(*persistConn).close","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"net/http.(*persistConn).closeLocked","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"net/http.(*persistConn).readLoop.func1","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"net/http.(*persistConn).readResponse","InlineLabel":"","Flat":0,"Cum":140000000,"FlatFormat":"0","CumFormat":"0.14s"},{"Name":"net/http.(*persistConn).roundTrip","InlineLabel":"","Flat":0,"Cum":80000000,"FlatFormat":"0","CumFormat":"0.08s"},{"Name":"net/http.(*persistConn).writeLoop","InlineLabel":"","Flat":0,"Cum":460000000,"FlatFormat":"0","CumFormat":"0.46s"},{"Name":"net/http.ReadResponse","InlineLabel":"","Flat":0,"Cum":140000000,"FlatFormat":"0","CumFormat":"0.14s"},{"Name":"net/http.persistConnWriter.Write","InlineLabel":"","Flat":0,"Cum":300000000,"FlatFormat":"0","CumFormat":"0.30s"},{"Name":"net/http.send","InlineLabel":"","Flat":0,"Cum":170000000,"FlatFormat":"0","CumFormat":"0.17s"},{"Name":"net/http/internal.(*chunkedReader).Read","InlineLabel":"","Flat":0,"Cum":350000000,"FlatFormat":"0","CumFormat":"0.35s"},{"Name":"net/http/internal.(*chunkedReader).beginChunk","InlineLabel":"","Flat":0,"Cum":110000000,"FlatFormat":"0","CumFormat":"0.11s"},{"Name":"net/http/internal.readChunkLine","InlineLabel":"","Flat":0,"Cum":110000000,"FlatFormat":"0","CumFormat":"0.11s"},{"Name":"os.(*File).Write","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"os.(*File).write","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"regexp.(*Regexp).doExecute","InlineLabel":"","Flat":0,"Cum":780000000,"FlatFormat":"0","CumFormat":"0.78s"},{"Name":"regexp.(*inputBytes).index","InlineLabel":"","Flat":0,"Cum":170000000,"FlatFormat":"0","CumFormat":"0.17s"},{"Name":"runtime.(*mcache).nextFree","InlineLabel":"","Flat":0,"Cum":140000000,"FlatFormat":"0","CumFormat":"0.14s"},{"Name":"runtime.(*mheap).alloc","InlineLabel":"","Flat":0,"Cum":140000000,"FlatFormat":"0","CumFormat":"0.14s"},{"Name":"runtime.(*mheap).alloc_m","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"runtime.copystack","InlineLabel":"","Flat":0,"Cum":90000000,"FlatFormat":"0","CumFormat":"0.09s"},{"Name":"runtime.gcAssistAlloc","InlineLabel":"","Flat":0,"Cum":420000000,"FlatFormat":"0","CumFormat":"0.42s"},{"Name":"runtime.gcAssistAlloc.func1","InlineLabel":"","Flat":0,"Cum":420000000,"FlatFormat":"0","CumFormat":"0.42s"},{"Name":"runtime.gcAssistAlloc1","InlineLabel":"","Flat":0,"Cum":420000000,"FlatFormat":"0","CumFormat":"0.42s"},{"Name":"runtime.gcBgMarkWorker","InlineLabel":"","Flat":0,"Cum":1380000000,"FlatFormat":"0","CumFormat":"1.38s"},{"Name":"runtime.gcBgMarkWorker.func2","InlineLabel":"","Flat":0,"Cum":1420000000,"FlatFormat":"0","CumFormat":"1.42s"},{"Name":"runtime.goready.func1","InlineLabel":"","Flat":0,"Cum":90000000,"FlatFormat":"0","CumFormat":"0.09s"},{"Name":"runtime.main","InlineLabel":"","Flat":0,"Cum":120000000,"FlatFormat":"0","CumFormat":"0.12s"},{"Name":"runtime.markroot.func1","InlineLabel":"","Flat":0,"Cum":870000000,"FlatFormat":"0","CumFormat":"0.87s"},{"Name":"runtime.mstart","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"runtime.newstack","InlineLabel":"","Flat":0,"Cum":80000000,"FlatFormat":"0","CumFormat":"0.08s"},{"Name":"runtime.pcdatavalue","InlineLabel":"","Flat":0,"Cum":260000000,"FlatFormat":"0","CumFormat":"0.26s"},{"Name":"runtime.runqsteal","InlineLabel":"","Flat":0,"Cum":200000000,"FlatFormat":"0","CumFormat":"0.20s"},{"Name":"runtime.semawakeup","InlineLabel":"","Flat":0,"Cum":190000000,"FlatFormat":"0","CumFormat":"0.19s"},{"Name":"runtime.wakep","InlineLabel":"","Flat":0,"Cum":140000000,"FlatFormat":"0","CumFormat":"0.14s"},{"Name":"runtime.wbBufFlush.func1","InlineLabel":"","Flat":0,"Cum":160000000,"FlatFormat":"0","CumFormat":"0.16s"},{"Name":"syscall.Bind","InlineLabel":"","Flat":0,"Cum":190000000,"FlatFormat":"0","CumFormat":"0.19s"},{"Name":"syscall.Closesocket","InlineLabel":"","Flat":0,"Cum":230000000,"FlatFormat":"0","CumFormat":"0.23s"},{"Name":"syscall.ConnectEx","InlineLabel":"","Flat":0,"Cum":410000000,"FlatFormat":"0","CumFormat":"0.41s"},{"Name":"syscall.GetAddrInfoW","InlineLabel":"","Flat":0,"Cum":2100000000,"FlatFormat":"0","CumFormat":"2.10s"},{"Name":"syscall.Getsockname","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"syscall.Setsockopt","InlineLabel":"","Flat":0,"Cum":180000000,"FlatFormat":"0","CumFormat":"0.18s"},{"Name":"syscall.Syscall","InlineLabel":"","Flat":0,"Cum":490000000,"FlatFormat":"0","CumFormat":"0.49s"},{"Name":"syscall.Syscall6","InlineLabel":"","Flat":0,"Cum":2390000000,"FlatFormat":"0","CumFormat":"2.39s"},{"Name":"syscall.WSASend","InlineLabel":"","Flat":0,"Cum":290000000,"FlatFormat":"0","CumFormat":"0.29s"},{"Name":"syscall.Write","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"syscall.WriteFile","InlineLabel":"","Flat":0,"Cum":70000000,"FlatFormat":"0","CumFormat":"0.07s"},{"Name":"syscall.connectEx","InlineLabel":"","Flat":0,"Cum":410000000,"FlatFormat":"0","CumFormat":"0.41s"},{"Name":"vendor/golang.org/x/net/html/charset.DetermineEncoding","InlineLabel":"","Flat":0,"Cum":100000000,"FlatFormat":"0","CumFormat":"0.10s"},{"Name":"vendor/golang.org/x/net/html/charset.prescan","InlineLabel":"","Flat":0,"Cum":80000000,"FlatFormat":"0","CumFormat":"0.08s"}]);
+  </script>
+
+
+</body></html>
